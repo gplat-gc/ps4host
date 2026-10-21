@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <link rel="icon" type="image/png" href="../pspulse.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>گیم سنتر جی پلات // PS4 7.00-8.52 هاست / 2.4B18.10</title>
+    <style>
+        :root {
+            --bg:   #0c0900;
+            --card: #131005;
+            --cardh:#1a1508;
+            --line: #3a2f10;
+            --lineb:#5a4820;
+            --tx:   #ffb81c;
+            --tx2:  #ffd24d;
+            --mu:   #c8962a;
+            --dim:  #6a5215;
+            --gr:   #34d399;
+            --rd:   #ef4444;
+            --warn: #f97316;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { background: var(--bg); }
+        html, body { min-height: 100%; }
+        body {
+            background:
+                radial-gradient(circle at 80% 0%, #ffb81c1c, transparent 50%),
+                radial-gradient(circle at 10% 100%, #ffb81c0e, transparent 45%),
+                var(--bg);
+            color: var(--tx2);
+            display: flex;
+            flex-direction: column;
+            font: 17px/1.4 Tahoma, Vazirmatn, sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        a { color: inherit; }
+
+        .app { display: flex; flex: 1 0 auto; flex-direction: column; margin: 0 auto; padding: 14px 26px 12px; width: min(100% - 52px, 1220px); }
+
+        .bar {
+            background: #100d02;
+            border: 1px solid var(--line);
+            border-top: 3px solid var(--tx);
+            border-radius: 0 0 12px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 16px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        .bar-brand {
+            color: var(--tx2);
+            font-size: 16px;
+            font-weight: 700;
+            filter: drop-shadow(0 0 8px #ffb81c88);
+        }
+        .bar-desc { color: var(--mu); font-size: 13px; }
+
+        .layout { display: flex; flex: 1 0 auto; flex-direction: column; padding: 0; }
+
+        .kicker { color: var(--tx); font-size: 13px; letter-spacing: .08em; margin: 0 0 10px; }
+        h1 { font-size: clamp(28px, 4vw, 48px); font-weight: 700; line-height: 1.1; margin: 0; }
+        h1 em { color: var(--tx); font-style: normal; }
+        .sub { color: var(--mu); font-size: 16px; margin: 10px 0 0; max-width: 720px; }
+        .boot { color: var(--dim); font-size: 13px; list-style: none; margin: 10px 0 0; }
+        .boot li { margin: 3px 0; }
+        .boot b { color: var(--tx); font-weight: 400; }
+        .fw-display {
+            border-right: 3px solid var(--tx);
+            color: var(--tx2);
+            display: inline-block;
+            font-size: 14px;
+            margin-top: 10px;
+            padding: 5px 10px;
+            background: var(--card);
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* Status */
+        .status {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            margin-top: 16px;
+            padding: 14px 16px;
+        }
+        .notification, .notification2 {
+            background: #080600;
+            border: 1px solid var(--lineb);
+            border-radius: 10px;
+            color: var(--tx2);
+            min-height: 42px;
+            padding: 10px 14px;
+        }
+        #log { color: var(--tx2); font-size: 15px; line-height: 1.45; font-family: Consolas, monospace; }
+        #log h1 { color: var(--tx2) !important; font-size: 15px; font-weight: 400; line-height: 1.45; margin: 0; }
+        #console { display: none !important; }
+        .ok   { color: var(--gr) !important; }
+        .bad  { color: var(--rd) !important; }
+        .warn { color: var(--warn) !important; }
+        .jailbreak-status {
+            border-right: 3px solid var(--tx);
+            color: var(--tx);
+            font-size: 16px;
+            margin-top: 10px;
+            padding: 4px 10px;
+            font-weight: 700;
+        }
+        .status-meta {
+            align-items: center;
+            border-top: 1px solid var(--line);
+            color: var(--dim);
+            display: flex;
+            flex-wrap: wrap;
+            font-size: 13px;
+            gap: 10px 16px;
+            margin-top: 10px;
+            padding-top: 10px;
+        }
+        .status-pass { color: var(--gr); }
+        .status-fail { color: var(--rd); }
+
+        /* Controls */
+        .controls {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            margin-top: 12px;
+            padding: 14px;
+        }
+        .section-title {
+            border-bottom: 1px solid var(--line);
+            color: var(--mu);
+            font-size: 13px;
+            letter-spacing: .1em;
+            margin-bottom: 11px;
+            padding: 0 4px 10px;
+            text-transform: uppercase;
+        }
+        .grid { display: grid; gap: 8px; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        .grid button {
+            background: #0c0900;
+            border: 1px solid var(--lineb);
+            border-radius: 8px;
+            color: var(--tx2);
+            cursor: pointer;
+            font: inherit;
+            font-size: 14px;
+            min-height: 48px;
+            padding: 10px 12px;
+            text-align: right;
+            transition: border-color .15s, box-shadow .15s;
+        }
+        .grid button:hover, .grid button:focus {
+            background: var(--cardh);
+            border-color: var(--tx);
+            color: var(--tx);
+            box-shadow: 0 0 14px #ffb81c30;
+            outline: 0;
+        }
+
+        /* Guide */
+        .guide {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            margin-top: 12px;
+            padding: 14px;
+        }
+        .guide-head {
+            border-bottom: 1px solid var(--line);
+            color: var(--warn);
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+        }
+        .guide-body { display: grid; gap: 8px; grid-template-columns: repeat(2, 1fr); }
+        .guide-card {
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 13px;
+            line-height: 1.6;
+            background: #0c0900;
+        }
+        .guide-card strong { display: block; margin-bottom: 4px; font-size: 13px; }
+        .gc-warn  { border-right: 4px solid var(--warn); }
+        .gc-warn  strong { color: var(--warn); }
+        .gc-green { border-right: 4px solid var(--gr); }
+        .gc-green strong { color: var(--gr); }
+        .gc-red   { border-right: 4px solid var(--rd); }
+        .gc-red   strong { color: var(--rd); }
+        .gc-crit  { border-right: 4px solid #ff4444; background: #160800; }
+        .gc-crit  strong { color: #ff4444; }
+
+        /* NodePlay */
+        .nodeplay {
+            align-items: center;
+            background: var(--card);
+            border: 1px solid var(--lineb);
+            border-radius: 14px;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 12px;
+            min-height: 64px;
+            padding: 10px 18px;
+            text-decoration: none;
+            transition: border-color .15s, box-shadow .15s;
+        }
+        .nodeplay:hover, .nodeplay:focus {
+            background: var(--cardh);
+            border-color: var(--tx);
+            box-shadow: 0 0 20px #ffb81c40;
+            outline: 0;
+        }
+        .np-label { color: var(--dim); display: block; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
+        .np-name { color: var(--tx2); display: block; font-size: 22px; margin-top: 2px; font-weight: 700; }
+        .np-name b { color: var(--tx); font-weight: 700; }
+        .np-open { color: var(--tx); font-size: 13px; }
+
+        /* Footer */
+        .foot {
+            border: 1px dashed var(--line);
+            border-radius: 14px;
+            color: var(--dim);
+            font-size: 12px;
+            margin-top: 14px;
+            padding: 14px 10px;
+            text-align: center;
+            line-height: 1.9;
+        }
+        .foot-name { color: var(--tx2); font-size: 15px; font-weight: 700; display: block; }
+        .foot-addr { color: var(--dim); font-size: 12px; display: block; }
+        .foot-contact { color: var(--tx); font-weight: 700; display: block; font-size: 13px; }
+        .foot-credit { color: var(--dim); font-size: 11px; display: block; margin-top: 4px; }
+        .foot a { color: var(--mu); text-decoration: none; }
+        .foot a:hover { color: var(--tx); }
+
+        @media (max-width: 820px) {
+            body { overflow: auto; }
+            .app { padding: 8px 10px; width: min(100% - 20px, 560px); }
+            .layout { padding-top: 0; }
+            h1 { font-size: 32px; }
+            .sub { font-size: 15px; }
+            .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .guide-body { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 430px) {
+            .grid { grid-template-columns: 1fr; }
+            h1 { font-size: 28px; }
+        }
+    </style>
+    <script>
+        if (window.applicationCache && window.applicationCache.status == 0) {
+            window.location.replace("cache5.html");
+        }
+    </script>
+    <script defer src="payloads.js"></script>
+    <script defer src="loader5.js"></script>
+    <script type="module" src="alert5.mjs"></script>
+</head>
+
+<body onload="if (window.ps4FirmwareSupported) load_exploit();">
+    <div class="app">
+        <header class="bar">
+            <span class="bar-brand">🎮 Gplat_GC</span>
+            <span class="bar-desc">هاست PS4 — نسخه ۷.۰۰ تا ۸.۵۲ | GoldHEN 2.4b18.10</span>
+        </header>
+
+        <main class="layout">
+            <p class="kicker">$ ./launch --psfree-7xx</p>
+            <h1>هاست PSFree <em>7.00-8.52</em></h1>
+            <p class="sub">هاست آنلاین و آفلاین Lapse اتوماتیک GoldHEN — گیم سنتر جی پلات</p>
+            <ul class="boot">
+                <li>[ <b>ok</b> ] زنجیره psfree 1.7 آماده</li>
+                <li>[ <b>ok</b> ] goldhen v2.4b18.10 بارگذاری شد</li>
+                <li>[ <b>ok</b> ] کش آفلاین آماده</li>
+            </ul>
+            <p class="fw-display">فریمور — <span id="PS4fw"></span></p>
+
+            <div class="status">
+                <div id="notify" class="notification"><div id="log"></div></div>
+                <pre id="console" style="display:none" aria-hidden="true"></pre>
+                <div class="jailbreak-status" id="msgs2">آماده جیلبریک</div>
+                <div class="status-meta">
+                    <span class="status-pass">تلاش موفق: <span id="passCounter">0</span></span>
+                    <span class="status-fail">تلاش ناموفق: <span id="failCounter">0</span></span>
+                </div>
+            </div>
+
+            <section class="guide">
+                <div class="guide-head">⚠️ راهنمای کپی‌خور — قبل از شروع بخوانید</div>
+                <div class="guide-body">
+                    <div class="guide-card gc-warn">
+                        <strong>توجه مهم</strong>
+                        خدمات کپی‌خور یک‌بار انجام می‌شود. مشکلات ناشی از بروزرسانی یا ریست‌فکتوری برعهده مشتری می‌باشد.
+                    </div>
+                    <div class="guide-card gc-green">
+                        <strong>اگر GoldHEN Loaded دیدید</strong>
+                        چند ثانیه صبر کنید — سپس دکمه Home (PS) را بفشارید.
+                    </div>
+                    <div class="guide-card gc-red">
+                        <strong>اگر کلمه Restart دیدید</strong>
+                        کنسول را سریعاً ریستارت کنید و مجدداً کپی‌خور را اجرا کنید.
+                    </div>
+                    <div class="guide-card gc-crit">
+                        <strong>⚡ روی صفحه نمانید</strong>
+                        پس از اتمام فوری صفحه را ببندید — ماندن روی صفحه باعث کرش یا فریز سیستم می‌شود.
+                    </div>
+                </div>
+            </section>
+
+            <section class="controls">
+                <div class="section-title">پیلودها</div>
+                <div class="grid">
+                    <button onclick="load_PSFreeFix()" onMouseOver="document.getElementById('msgs2').innerHTML='PSFree Fix - Fixes PS4 PSFree exploit issues'" onmouseout="document.getElementById('msgs2').innerHTML='آماده جیلبریک'">PSFree Fix</button>
+                    <button onclick="load_ftp()" onMouseOver="document.getElementById('msgs2').innerHTML='FTP Server - Start FTP server for file access'" onmouseout="document.getElementById('msgs2').innerHTML='آماده جیلبریک'">FTP Server</button>
+                    <button onclick="load_ps4debug()" onMouseOver="document.getElementById('msgs2').innerHTML='PS4Debug - Enable debugging features'" onmouseout="document.getElementById('msgs2').innerHTML='آماده جیلبریک'">PS4Debug</button>
+                    <button onclick="load_app2usb()" onMouseOver="document.getElementById('msgs2').innerHTML='App2USB - Transfer applications to USB storage'" onmouseout="document.getElementById('msgs2').innerHTML='آماده جیلبریک'">App2USB</button>
+                    <button onclick="load_backup()" onMouseOver="document.getElementById('msgs2').innerHTML='Backup - Backup system data to USB'" onmouseout="document.getElementById('msgs2').innerHTML='آماده جیلبریک'">Backup</button>
+                    <button onclick="load_restore()" onMouseOver="document.getElementById('msgs2').innerHTML='Restore - Restore system data from USB'" onmouseout="document.getElementById('msgs2').innerHTML='آماده جیلبریک'">Restore</button>
+                    <button onclick="load_disable_updates()" onMouseOver="document.getElementById('msgs2').innerHTML='Disable Updates - Block system updates'" onmouseout="document.getElementById('msgs2').innerHTML='آماده جیلبریک'">Disable Updates</button>
+                    <button onclick="load_enable_updates()" onMouseOver="document.getElementById('msgs2').innerHTML='Enable Updates - Allow system updates'" onmouseout="document.getElementById('msgs2').innerHTML='آماده جیلبریک'">Enable Updates</button>
+                    <button onclick="load_appcache_install()" onMouseOver="document.getElementById('msgs2').innerHTML='AppCache Install - Install application cache'" onmouseout="document.getElementById('msgs2').innerHTML='آماده جیلبریک'">AppCache Install</button>
+                    <button onclick="load_history_blocker()" onMouseOver="document.getElementById('msgs2').innerHTML='History Blocker - Block browser history tracking'" onmouseout="document.getElementById('msgs2').innerHTML='آماده جیلبریک'">History Blocker</button>
+                    <button onclick="load_pup_decrypt()" onMouseOver="document.getElementById('msgs2').innerHTML='PUP Decrypt - Decrypt PS4 update files'" onmouseout="document.getElementById('msgs2').innerHTML='آماده جیلبریک'">PUP Decrypt</button>
+                    <button onclick="load_rif_renamer()" onMouseOver="document.getElementById('msgs2').innerHTML='RIF Renamer - Manage license files'" onmouseout="document.getElementById('msgs2').innerHTML='آماده جیلبریک'">RIF Renamer</button>
+                    <button onclick="load_webrte()" onMouseOver="document.getElementById('msgs2').innerHTML='WebRTE - Real-time editing features'" onmouseout="document.getElementById('msgs2').innerHTML='آماده جیلبریک'">WebRTE</button>
+                </div>
+            </section>
+
+            <a class="nodeplay" href="https://nodeplay.net/" target="_blank" rel="noopener">
+                <span><span class="np-label">سرورهای گیم پریمیوم</span><span class="np-name">Node<b>Play</b></span></span>
+                <span class="np-open">باز کردن &#8599;</span>
+            </a>
+
+            <footer class="foot">
+                <span class="foot-name">🎮 گیم سنتر جی پلات — Gplat_GC</span>
+                <span class="foot-addr">استان تهران، پاکدشت، بلوار آموزش و پرورش، جنب آموزش و پرورش، پلاک ۲۵۵</span>
+                <span class="foot-contact">📞 09108683559 &nbsp;|&nbsp; اینستاگرام: @Gplat_GC</span>
+                <span class="foot-credit">Author: <a href="https://t.me/sudoBlackArch">BlackArch</a> // <a href="https://t.me/PlayStation_Pulse">PlayStation Pulse</a></span>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+// Firmware detection
+        UA = navigator.userAgent.substring(navigator.userAgent.indexOf("6.72 (") + 28, navigator.userAgent.indexOf(") Apple"));
+        // 7.xx
+        if (UA == "layStation 4/7.00") UA = "7.00";
+        if (UA == "layStation 4/7.01") UA = "7.01";
+        if (UA == "layStation 4/7.02") UA = "7.02";
+        if (UA == "layStation 4/7.50") UA = "7.50";
+        if (UA == "layStation 4/7.51") UA = "7.51";
+        if (UA == "layStation 4/7.55") UA = "7.55";
+        // 8.xx
+        if (UA == "layStation 4/8.00") UA = "8.00";
+        if (UA == "layStation 4/8.01") UA = "8.01";
+        if (UA == "layStation 4/8.03") UA = "8.03";
+        if (UA == "layStation 4/8.50") UA = "8.50";
+        if (UA == "layStation 4/8.52") UA = "8.52";
+
+        var supportedFW = ["7.00", "7.01", "7.02", "7.50", "7.51", "7.55", "8.00", "8.01", "8.03", "8.50", "8.52"];
+        window.ps4FirmwareSupported = supportedFW.indexOf(UA) !== -1;
+        if (!window.ps4FirmwareSupported)
+            alert("This Is For PS4 FW 7.xx - 8.xx Only!");
+        document.getElementById("PS4fw").innerHTML = "" + UA + "";
+
+        // Statistics initialization
+        if (localStorage.passcount == null || localStorage.passcount == undefined) localStorage.passcount = 0;
+        if (localStorage.failcount == null || localStorage.failcount == undefined) localStorage.failcount = 0;
+
+        // Update counters on page load
+        if (document.getElementById("passCounter")) {
+            document.getElementById("passCounter").innerHTML = localStorage.passcount;
+        }
+        if (document.getElementById("failCounter")) {
+            document.getElementById("failCounter").innerHTML = localStorage.failcount;
+        }
+    </script>
+
+<style id="pspulse-support-style">
+.pspulse-support{position:fixed;left:18px;bottom:18px;z-index:2147483647;display:block;padding:10px 15px;border:1px solid #ffb81c;border-radius:8px;background:#131005;color:#ffd24d!important;font:600 13px Tahoma,sans-serif;letter-spacing:.2px;text-decoration:none;box-shadow:0 4px 16px rgba(0,0,0,.32)}
+.pspulse-support:hover,.pspulse-support:focus{background:#ffb81c;color:#0c0900!important;outline:none}
+</style>
+<a class="pspulse-support" href="https://sudoblackarch.github.io/support/" aria-label="Support me">Support me!</a>
+</body>
+
+</html>

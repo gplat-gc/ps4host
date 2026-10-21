@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <link rel="icon" type="image/png" href="../pspulse.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PSPULSE // PS4 7.00-8.52 HOST / VERSION</title>
+    <style>
+        :root {
+            --bg:   #0c0900;
+            --card: #131005;
+            --cardh:#1a1508;
+            --line: #3a2f10;
+            --lineb:#5a4820;
+            --tx:   #ffb81c;
+            --tx2:  #ffd24d;
+            --mu:   #c8962a;
+            --dim:  #6a5215;
+            --gr:   #34d399;
+            --rd:   #ef4444;
+            --warn: #f97316;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { background: var(--bg); }
+        html, body { min-height: 100%; }
+        body {
+            background:
+                radial-gradient(circle at 80% 0%, #ffb81c1c, transparent 50%),
+                radial-gradient(circle at 10% 100%, #ffb81c0e, transparent 45%),
+                var(--bg);
+            color: var(--tx);
+            display: flex;
+            flex-direction: column;
+            font: 16px/1.6 Tahoma, Vazirmatn, sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        a { color: inherit; text-decoration: none; }
+
+        .app { display: flex; flex: 1 0 auto; flex-direction: column; margin: 0 auto; padding: 14px 20px 12px; width: min(100% - 40px, 1100px); }
+
+        /* Header Bar */
+        .bar {
+            background: #100d02;
+            border: 1px solid var(--line);
+            border-top: 3px solid var(--tx);
+            border-radius: 0 0 12px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 16px;
+            margin-bottom: 20px;
+        }
+        .bar-brand {
+            color: var(--tx2);
+            font-size: 18px;
+            font-weight: 700;
+            filter: drop-shadow(0 0 8px #ffb81c88);
+        }
+        .bar-sub { color: var(--mu); font-size: 13px; }
+
+        .layout { display: flex; flex: 1 0 auto; flex-direction: column; }
+
+        .kicker { color: var(--mu); font-size: 13px; font-family: Consolas, monospace; direction: ltr; text-align: left; margin-bottom: 10px; }
+        h1 { font-size: clamp(30px, 5vw, 52px); font-weight: 700; line-height: 1.1; margin: 0 0 6px; color: var(--tx2); }
+        h1 em { color: var(--tx); font-style: normal; }
+        .sub { color: var(--mu); font-size: 16px; margin: 8px 0 0; max-width: 620px; }
+
+        .boot { font-size: 13px; list-style: none; margin: 12px 0 0; font-family: Consolas, monospace; direction: ltr; text-align: left; }
+        .boot li { margin: 3px 0; color: var(--dim); }
+        .ok   { color: var(--gr) !important; }
+        .bad  { color: var(--rd) !important; }
+        .warn { color: var(--warn) !important; }
+
+        /* Version selector */
+        .menu {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            margin-top: 22px;
+            padding: 16px;
+        }
+        .menu-top {
+            align-items: baseline;
+            border-bottom: 1px solid var(--line);
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+        }
+        .menu-title { color: var(--tx2); font-size: 15px; font-weight: 700; }
+        .menu-hint { color: var(--dim); font-size: 13px; }
+        .version-grid { display: grid; gap: 12px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+        .version-card {
+            align-items: flex-start;
+            background: #0a0800;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            min-height: 130px;
+            padding: 18px 18px;
+            gap: 14px;
+            transition: border-color .15s, box-shadow .15s, background .15s;
+        }
+        .version-card:hover, .version-card:focus {
+            background: var(--cardh);
+            border-color: var(--tx);
+            box-shadow: 0 0 20px #ffb81c40;
+            outline: 0;
+        }
+        .version-card:focus { box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--tx); }
+
+        .card-index { color: var(--dim); font-size: 15px; min-width: 32px; font-family: Consolas, monospace; padding-top: 2px; }
+        .version-card:hover .card-index, .version-card:focus .card-index { color: var(--tx); }
+
+        .card-body { flex: 1; }
+        .version-badge {
+            color: var(--dim);
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .1em;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        .version-card.latest .version-badge { color: var(--tx); }
+        .version-title { color: var(--tx2); font-size: 19px; font-weight: 700; line-height: 1.2; }
+        .version-number { color: var(--tx); font-size: 15px; font-family: Consolas, monospace; }
+        .version-description { color: var(--mu); display: block; font-size: 13px; line-height: 1.6; margin-top: 8px; }
+
+        .card-action {
+            color: var(--dim);
+            font-size: 12px;
+            white-space: nowrap;
+            font-family: Consolas, monospace;
+            padding-top: 2px;
+        }
+        .version-card:hover .card-action, .version-card:focus .card-action { color: var(--tx); }
+
+        /* Footer */
+        .foot {
+            border: 1px dashed var(--line);
+            border-radius: 14px;
+            color: var(--dim);
+            font-size: 13px;
+            margin-top: 16px;
+            padding: 16px 8px;
+            text-align: center;
+            line-height: 2;
+        }
+        .foot-brand { color: var(--tx2); font-size: 16px; font-weight: 700; }
+        .foot-addr  { color: var(--dim); font-size: 12px; }
+        .foot-contact { color: var(--tx); font-weight: 700; font-size: 14px; }
+        .foot-credit { color: var(--dim); font-size: 11px; }
+        .foot a { color: var(--mu); }
+        .foot a:hover { color: var(--tx); }
+
+        @media (max-width: 760px) {
+            body { overflow: auto; }
+            .app { padding: 8px 10px; width: min(100% - 20px, 560px); }
+            .layout { padding-top: 4px; }
+            h1 { font-size: 34px; }
+            .version-grid { grid-template-columns: 1fr; }
+            .version-card { min-height: 104px; }
+            .menu-hint { display: none; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <header class="bar">
+            <span class="bar-brand">🎮 Gplat_GC</span>
+            <span class="bar-sub">انتخاب نسخه GoldHEN</span>
+        </header>
+
+        <main class="layout">
+            <p class="kicker">$ select --goldhen</p>
+            <h1>انتخاب <em>نسخه</em></h1>
+            <p class="sub">نسخه GoldHEN مورد نظر برای کش و استفاده با هاست PSFree را انتخاب کنید.</p>
+            <ul class="boot">
+                <li>[ <span class="ok">ok</span> ] psfree 1.7 chain ready</li>
+                <li>[ <span class="ok">ok</span> ] 2 builds available</li>
+            </ul>
+
+            <section class="menu" aria-label="نسخه‌های GoldHEN">
+                <div class="menu-top">
+                    <span class="menu-title">نسخه‌های موجود</span>
+                    <span class="menu-hint">↑ ↓ جابجایی &nbsp; X انتخاب</span>
+                </div>
+                <div class="version-grid">
+                    <div class="version-card latest" onclick="selectVersion('v2.4b18.12')" tabindex="0" data-version="latest">
+                        <span class="card-index">01</span>
+                        <span class="card-body">
+                            <span class="version-badge latest">جدیدترین</span>
+                            <span class="version-title">GoldHEN <span class="version-number">v2.4b18.12</span></span>
+                            <span class="version-description">آخرین نسخه با پایداری بهتر، ویژگی‌های جدید و سازگاری بیشتر. برای اکثر کاربران توصیه می‌شود.</span>
+                        </span>
+                        <span class="card-action">[ انتخاب ]</span>
+                    </div>
+
+                    <div class="version-card" onclick="selectVersion('v2.4b18.10')" tabindex="0" data-version="stable">
+                        <span class="card-index">02</span>
+                        <span class="card-body">
+                            <span class="version-badge">پایدار</span>
+                            <span class="version-title">GoldHEN <span class="version-number">v2.4b18.10</span></span>
+                            <span class="version-description">نسخه پایدار قبلی با قابلیت اطمینان اثبات‌شده. اگر نسخه جدید مشکل دارد این را انتخاب کنید.</span>
+                        </span>
+                        <span class="card-action">[ انتخاب ]</span>
+                    </div>
+                </div>
+            </section>
+
+            <footer class="foot">
+                <div class="foot-brand">🎮 گیم سنتر جی پلات — Gplat_GC</div>
+                <div class="foot-addr">استان تهران، پاکدشت، بلوار آموزش و پرورش، جنب آموزش و پرورش، پلاک ۲۵۵</div>
+                <div class="foot-contact">📞 09108683559 &nbsp;|&nbsp; اینستاگرام: @Gplat_GC</div>
+                <div class="foot-credit">Author: <a href="https://t.me/sudoBlackArch">BlackArch</a> // <a href="https://t.me/PlayStation_Pulse">PlayStation Pulse</a></div>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        function selectVersion(version) {
+            try { localStorage.setItem('selectedGoldHENVersion', version); } catch (error) {}
+            if (version === 'v2.4b18.12') {
+                window.location.href = 'cache.html';
+            } else if (version === 'v2.4b18.10') {
+                window.location.href = 'cache5.html';
+            }
+        }
+
+        var cards = document.querySelectorAll('.version-card');
+        for (var cardIndex = 0; cardIndex < cards.length; cardIndex++) {
+            var card = cards[cardIndex];
+            card.addEventListener('keydown', function (event) {
+                var cardKey = event.key || event.keyCode;
+                if (cardKey === 'Enter' || cardKey === ' ' || cardKey === 13 || cardKey === 32) {
+                    event.preventDefault();
+                    this.click();
+                }
+            });
+        }
+
+        var animatedCards = document.querySelectorAll('.version-card');
+        for (var animatedIndex = 0; animatedIndex < animatedCards.length; animatedIndex++) {
+            var animatedCard = animatedCards[animatedIndex];
+            animatedCard.addEventListener('mousedown', function () {
+                this.style.transform = 'translateY(-2px) scale(0.98)';
+            });
+            animatedCard.addEventListener('mouseup', function () {
+                this.style.transform = 'translateY(-5px) scale(1)';
+            });
+            animatedCard.addEventListener('mouseleave', function () {
+                this.style.transform = 'translateY(0px) scale(1)';
+            });
+            animatedCard.addEventListener('blur', function () {
+                this.style.transform = 'translateY(0px) scale(1)';
+            });
+        }
+    </script>
+
+<style id="pspulse-support-style">
+.pspulse-support{position:fixed;left:18px;bottom:18px;z-index:2147483647;display:block;padding:10px 15px;border:1px solid #ffb81c;border-radius:8px;background:#100d02;color:#ffd24d!important;font:600 13px Tahoma,sans-serif;letter-spacing:.2px;text-decoration:none;box-shadow:0 4px 16px rgba(0,0,0,.4)}
+.pspulse-support:hover,.pspulse-support:focus{background:#ffb81c;color:#0c0900!important;outline:none}
+</style>
+<a class="pspulse-support" href="https://sudoblackarch.github.io/support/" aria-label="Support me">حمایت کنید!</a>
+</body>
+
+</html>

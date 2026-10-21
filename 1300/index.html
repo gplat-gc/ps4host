@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" manifest="cache.manifest">
+<head>
+    <link rel="icon" type="image/png" href="../pspulse.png">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>گیم سنتر جی پلات // هاست PS4 11.00-13.00</title>
+<style>
+    :root {
+        --bg:   #0c0900;
+        --card: #131005;
+        --cardh:#1a1508;
+        --line: #3a2f10;
+        --lineb:#5a4820;
+        --tx:   #ffb81c;
+        --tx2:  #ffd24d;
+        --mu:   #c8962a;
+        --dim:  #6a5215;
+        --gr:   #34d399;
+        --rd:   #ef4444;
+        --warn: #f97316;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--bg); }
+    html, body { min-height: 100%; }
+    body {
+        background:
+            radial-gradient(circle at 80% 0%, #ffb81c1c, transparent 50%),
+            radial-gradient(circle at 10% 100%, #ffb81c0e, transparent 45%),
+            var(--bg);
+        color: var(--tx);
+        display: flex;
+        flex-direction: column;
+        font: 17px/1.4 Tahoma, Vazirmatn, sans-serif;
+        min-height: 100vh;
+        overflow-x: hidden;
+    }
+    a { color: inherit; }
+
+    .app { display: flex; flex: 1 0 auto; flex-direction: column; margin: 0 auto; padding: 14px 26px 12px; width: min(100% - 52px, 1220px); }
+
+    /* هدر بار */
+    .bar {
+        background: #100d02;
+        border: 1px solid var(--line);
+        border-top: 3px solid var(--tx);
+        border-radius: 0 0 12px 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 16px;
+        margin-bottom: 20px;
+        font-size: 14px;
+        letter-spacing: .04em;
+    }
+    .bar-brand {
+        color: var(--tx2);
+        font-weight: 700;
+        font-size: 15px;
+        filter: drop-shadow(0 0 6px #ffb81c88);
+    }
+    .bar-fw { color: var(--mu); font-size: 13px; }
+
+    .layout { display: flex; flex: 1 0 auto; flex-direction: column; padding: 0 0 0; }
+
+    /* هدر */
+    .kicker { color: var(--mu); font-size: 13px; letter-spacing: .06em; margin: 0 0 10px; font-family: Consolas, monospace; }
+    h1 { font-size: clamp(28px, 5vw, 50px); font-weight: 700; line-height: 1.1; margin: 0; color: var(--tx2); }
+    h1 em { color: var(--tx); font-style: normal; filter: drop-shadow(0 0 8px #ffb81c66); }
+    .sub { color: var(--mu); font-size: 16px; margin: 10px 0 0; max-width: 720px; }
+    .boot { color: var(--dim); font-size: 13px; list-style: none; margin: 10px 0 0; font-family: Consolas, monospace; }
+    .boot li { margin: 3px 0; }
+    .boot b { color: var(--gr); font-weight: 400; }
+
+    /* باکس وضعیت */
+    .status {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        margin-top: 18px;
+        padding: 16px 18px;
+    }
+    #state { color: var(--tx); font-size: 20px; font-weight: 700; line-height: 1.25; margin: 0 0 10px; }
+    #det { color: var(--mu); font-size: 13px; margin: 0 0 6px; font-family: Consolas, monospace; }
+    #det b { color: var(--tx2); font-weight: 400; }
+    #cache { color: var(--dim); font-size: 12px; margin: 0 0 10px; min-height: 16px; font-family: Consolas, monospace; }
+    #cache.cacheok { color: var(--gr); }
+    .ok   { color: var(--gr) !important; }
+    .bad  { color: var(--rd) !important; }
+    .warn { color: var(--warn) !important; }
+    .notice { border-right: 2px solid var(--warn); color: var(--mu); font-size: 13px; margin-top: 12px; padding: 5px 10px; }
+    .notice b { color: var(--warn); font-weight: 400; }
+
+    /* راهنمای کپی‌خور */
+    .guide { margin-top: 20px; }
+    .guide-head {
+        color: var(--tx2);
+        font-size: 15px;
+        font-weight: 700;
+        margin-bottom: 12px;
+        padding-right: 6px;
+        border-right: 3px solid var(--tx);
+    }
+    .guide-body { display: grid; gap: 10px; }
+    .guide-card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-right: 4px solid var(--line);
+        border-radius: 10px;
+        padding: 12px 14px;
+        font-size: 14px;
+    }
+    .guide-card strong { display: block; font-size: 13px; font-weight: 700; margin-bottom: 5px; }
+    .guide-card p { color: var(--mu); margin: 0; line-height: 1.6; }
+    .gc-warn  { border-right-color: var(--warn); }
+    .gc-warn  strong { color: var(--warn); }
+    .gc-green { border-right-color: var(--gr); }
+    .gc-green strong { color: var(--gr); }
+    .gc-red   { border-right-color: var(--rd); }
+    .gc-red   strong { color: var(--rd); }
+    .gc-crit  { border-right-color: #ff4444; background: #160800; }
+    .gc-crit  strong { color: #ff4444; }
+
+    /* NodePlay */
+    .nodeplay {
+        align-items: center;
+        background: var(--card);
+        border: 1px solid var(--lineb);
+        border-radius: 14px;
+        display: flex;
+        justify-content: space-between;
+        margin-top: 14px;
+        min-height: 68px;
+        padding: 10px 18px;
+        text-decoration: none;
+        transition: background .15s, border-color .15s, box-shadow .15s;
+    }
+    .nodeplay:hover, .nodeplay:focus {
+        background: var(--cardh);
+        border-color: var(--tx);
+        box-shadow: 0 0 20px #ffb81c40;
+        outline: 0;
+    }
+    .np-label { color: var(--dim); display: block; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+    .np-name { color: var(--tx2); display: block; font-size: 22px; margin-top: 2px; font-weight: 700; }
+    .np-name b { color: var(--tx); font-weight: 400; }
+    .np-open { color: var(--tx); font-size: 14px; }
+
+    /* فوتر */
+    .foot {
+        border: 1px dashed var(--line);
+        border-radius: 14px;
+        color: var(--dim);
+        font-size: 13px;
+        margin-top: 18px;
+        padding: 14px 16px 10px;
+        text-align: center;
+        line-height: 1.9;
+    }
+    .foot-brand { color: var(--tx2); font-size: 16px; font-weight: 700; display: block; }
+    .foot-addr { color: var(--dim); font-size: 12px; display: block; }
+    .foot-contact { color: var(--tx); font-weight: 700; display: block; }
+    .foot-credit { color: var(--dim); font-size: 11px; display: block; margin-top: 4px; }
+    .foot a { color: var(--mu); }
+    .foot a:hover, .foot a:focus { color: var(--tx); }
+
+    @media (max-width: 760px) {
+        body { overflow: auto; }
+        .app { padding: 8px 10px; width: min(100% - 20px, 560px); }
+        .bar { font-size: 12px; padding: 8px 12px; }
+        .layout { padding-top: 0; }
+        h1 { font-size: 30px; }
+        .sub { font-size: 15px; }
+        #state { font-size: 17px; }
+    }
+</style>
+</head>
+<body>
+    <div class="app">
+        <header class="bar">
+            <span class="bar-brand">🎮 Gplat_GC</span>
+            <span class="bar-fw">هاست PS4 — فریمور ۱۱.۰۰ تا ۱۳.۰۰</span>
+        </header>
+
+        <main class="layout">
+            <p class="kicker">$ ./launch --slopkit</p>
+            <h1>SlopKit <em>11.00-13.00</em></h1>
+            <p class="sub">هاست WebKit برای کپی‌خور PS4 — گیم سنتر جی پلات</p>
+            <ul class="boot">
+                <li>[ <b>ok</b> ] webkit chain ready</li>
+                <li>[ <b>ok</b> ] offline cache ready</li>
+            </ul>
+
+            <section class="status" id="wrap">
+                <div id="state">در حال تشخیص فریمور...</div>
+                <div id="det"></div>
+                <div id="cache"></div>
+            </section>
+
+            <section class="guide">
+                <div class="guide-head">⚠️ راهنمای کپی‌خور — قبل از شروع بخوانید</div>
+                <div class="guide-body">
+                    <div class="guide-card gc-warn">
+                        <strong>توجه مهم</strong>
+                        <p>خدمات کپی‌خور یک‌بار انجام می‌شود. مشکلات ناشی از بروزرسانی یا ریست‌فکتوری برعهده مشتری می‌باشد.</p>
+                    </div>
+                    <div class="guide-card gc-green">
+                        <strong>اگر <code>GoldHEN Loaded</code> دیدید</strong>
+                        <p>چند ثانیه صبر کنید — سپس دکمه Home (PS) را بفشارید.</p>
+                    </div>
+                    <div class="guide-card gc-red">
+                        <strong>اگر کلمه <code>Restart</code> دیدید</strong>
+                        <p>کنسول را سریعاً ریستارت کنید و مجدداً کپی‌خور را اجرا کنید.</p>
+                    </div>
+                    <div class="guide-card gc-crit">
+                        <strong>⚡ روی صفحه نمانید</strong>
+                        <p>پس از اتمام فوری صفحه را ببندید — ماندن روی صفحه باعث کرش یا فریز سیستم می‌شود.</p>
+                    </div>
+                </div>
+            </section>
+
+            <a class="nodeplay" href="https://nodeplay.net/" target="_blank" rel="noopener">
+                <span><span class="np-label">سرورهای بازی حرفه‌ای</span><span class="np-name">Node<b>Play</b></span></span>
+                <span class="np-open">باز کردن &#8599;</span>
+            </a>
+
+            <footer class="foot">
+                <span class="foot-brand">🎮 گیم سنتر جی پلات — Gplat_GC</span>
+                <span class="foot-addr">استان تهران، پاکدشت، بلوار آموزش و پرورش، جنب آموزش و پرورش، پلاک ۲۵۵</span>
+                <span class="foot-contact">📞 09108683559 &nbsp;|&nbsp; اینستاگرام: @Gplat_GC</span>
+                <span class="foot-credit">Author: <a href="https://t.me/sudoBlackArch">BlackArch</a> // <a href="https://t.me/PlayStation_Pulse">PlayStation Pulse</a></span>
+            </footer>
+        </main>
+    </div>
+
+<script>
+(function () {
+    var stateEl = document.getElementById("state");
+    var detEl = document.getElementById("det");
+    var cacheEl = document.getElementById("cache");
+    var launched = false;
+    var cacheFinished = false;
+    var cacheWatchdog = null;
+
+    function setState(text, cssClass) {
+        stateEl.textContent = text;
+        stateEl.className = cssClass || "";
+    }
+    function setCache(text, ok) {
+        cacheEl.textContent = text;
+        cacheEl.className = ok ? "cacheok" : "";
+    }
+    function queryValue(name) {
+        var match = new RegExp("[?&]" + name + "=([^&]*)").exec(location.search);
+        if (!match) return null;
+        try { return decodeURIComponent(match[1]); } catch (error) { return null; }
+    }
+    function sessionGet(name) {
+        try { return sessionStorage.getItem(name); } catch (error) { return null; }
+    }
+    function sessionSet(name, value) {
+        try {
+            sessionStorage.setItem(name, String(value));
+            return sessionStorage.getItem(name) === String(value);
+        } catch (error) { return false; }
+    }
+    function sessionRemove(name) {
+        try { sessionStorage.removeItem(name); } catch (error) {}
+    }
+
+    var key = null;
+    var fwnum = null;
+    var match = /PlayStation\s+4[\/ ](\d+)\.(\d+)/.exec(navigator.userAgent);
+    if (match) {
+        var minor = parseInt(match[2], 16);
+        var minorString = minor.toString(16);
+        if (minorString.length < 2) minorString = "0" + minorString;
+        key = match[1] + "." + minorString;
+        fwnum = parseInt(match[1], 10) * 100 + parseInt(minorString, 10);
+    }
+
+    if (fwnum === 1101 || fwnum === 1102) {
+        window.location.replace("../css/version-selector.html");
+        return;
+    }
+
+    var LAPSE = { 1100: 1, 1150: 1, 1200: 1, 1202: 1 };
+    var POOPS = { 1250: 1, 1252: 1, 1300: 1 };
+    var bug = LAPSE[fwnum] ? "lapse" : (POOPS[fwnum] ? "poops" : null);
+    var forced = queryValue("bug");
+    if (bug && (forced === "lapse" || forced === "poops")) bug = forced;
+
+    var why = !key ? "user-agent is not a PlayStation 4" :
+        bug ? key + " uses " + bug : key + " is not supported by this host";
+    detEl.innerHTML = "firmware <b>" + (key || "unknown") + "</b>"
+        + " &middot; bug <b>" + (bug || "none") + "</b> &middot; " + why;
+
+    if (!bug) {
+        setState("UNSUPPORTED FIRMWARE — execution stopped", "bad");
+        setCache("Supported: 11.00, 11.50, 12.00, 12.02, 12.50, 12.52 and 13.00.");
+        return;
+    }
+
+    var target = (bug === "lapse" ? "run_lapse.html" : "run_poops.html")
+        + location.search;
+    var preflightKey = "pspulse-1300-preflight:" + target;
+    var cacheReloadKey = "pspulse-1300-cache-reload";
+
+    function waitForTap(message, action) {
+        setState(message, "warn");
+        var fired = false;
+        function cleanup() {
+            window.removeEventListener("click", click, false);
+            window.removeEventListener("keydown", keydown, false);
+        }
+        function fire() {
+            if (fired) return;
+            fired = true;
+            cleanup();
+            action();
+        }
+        function click() { fire(); }
+        function keydown(event) {
+            var code = event.which || event.keyCode || 0;
+            var keyName = event.key || event.keyIdentifier || "";
+            if (code === 13 || code === 32 || keyName === "Enter" ||
+                keyName === " " || keyName === "Spacebar") {
+                event.preventDefault();
+                fire();
+            }
+        }
+        window.addEventListener("click", click, false);
+        window.addEventListener("keydown", keydown, false);
+    }
+
+    function go() {
+        if (launched) return;
+        launched = true;
+        if (sessionGet(preflightKey) !== "yes") {
+            if (!sessionSet(preflightKey, "yes")) {
+                setState("SESSION STORAGE UNAVAILABLE — press X to continue", "warn");
+                waitForTap("SESSION STORAGE UNAVAILABLE — press X to continue", function () {
+                    location.replace(target);
+                });
+                return;
+            }
+            setState("preparing a clean memory state...", "warn");
+            setTimeout(function () { location.reload(); }, 750);
+            return;
+        }
+        setState("loading " + bug + " chain...", "warn");
+        location.replace(target);
+    }
+
+    function finishCache() {
+        if (cacheFinished) return false;
+        cacheFinished = true;
+        if (cacheWatchdog !== null) {
+            clearTimeout(cacheWatchdog);
+            cacheWatchdog = null;
+        }
+        return true;
+    }
+
+    function reloadWithFreshCache(swap) {
+        if (!finishCache()) return;
+        if (swap) {
+            try { applicationCache.swapCache(); } catch (error) {}
+        }
+        sessionSet(preflightKey, "yes");
+        if (sessionGet(cacheReloadKey) === "yes") {
+            sessionRemove(cacheReloadKey);
+            go();
+            return;
+        }
+        sessionSet(cacheReloadKey, "yes");
+        setCache("cache ready — reloading once", true);
+        setTimeout(function () { location.reload(); }, 750);
+    }
+
+    var ac = window.applicationCache;
+    if (!ac || !document.documentElement.hasAttribute("manifest")) {
+        if (bug === "poops") {
+            setCache("cache required — clear browser data and reopen the host");
+            setState("CACHE UNAVAILABLE — clear browser data and reopen the host", "bad");
+            return;
+        }
+        setCache("application cache unavailable");
+        go();
+        return;
+    }
+
+    ac.addEventListener("downloading", function () {
+        setCache("caching for offline use...");
+    }, false);
+    ac.addEventListener("progress", function (event) {
+        if (event && event.total > 0)
+            setCache("caching " + Math.round(event.loaded / event.total * 100) + "%");
+    }, false);
+    ac.addEventListener("cached", function () {
+        reloadWithFreshCache(false);
+    }, false);
+    ac.addEventListener("updateready", function () {
+        reloadWithFreshCache(true);
+    }, false);
+    ac.addEventListener("noupdate", function () {
+        if (!finishCache()) return;
+        sessionRemove(cacheReloadKey);
+        setCache("cached — offline ready", true);
+        go();
+    }, false);
+    ac.addEventListener("error", function () {
+        if (!finishCache()) return;
+        sessionRemove(cacheReloadKey);
+        setCache("cache unavailable");
+        if (bug === "poops") {
+            setState("CACHE FAILED — clear browser data and reopen the host", "bad");
+            return;
+        }
+        waitForTap("CACHE FAILED — press X or tap to run online", go);
+    }, false);
+    ac.addEventListener("obsolete", function () {
+        if (!finishCache()) return;
+        sessionRemove(cacheReloadKey);
+        setCache("cache obsolete — clear browser data", false);
+        setState("CACHE OBSOLETE — clear browser data and reopen the host", "bad");
+    }, false);
+
+    if (!navigator.onLine) {
+        finishCache();
+        setCache("offline — using cached files", true);
+        go();
+    } else if (ac.status === ac.UPDATEREADY) {
+        reloadWithFreshCache(true);
+    } else if (ac.status === ac.CHECKING || ac.status === ac.DOWNLOADING ||
+               ac.status === ac.UNCACHED) {
+        setCache("waiting for offline cache...");
+        cacheWatchdog = setTimeout(function () {
+            if (!finishCache()) return;
+            setCache("cache check timed out");
+            if (bug === "poops") {
+                setState("CACHE TIMEOUT — clear browser data and reopen the host", "bad");
+                return;
+            }
+            waitForTap("CACHE TIMEOUT — press X or tap to run online", go);
+        }, 60000);
+    } else {
+        setCache("cached — checking for updates...");
+        try { ac.update(); } catch (error) {}
+        cacheWatchdog = setTimeout(function () {
+            if (!finishCache()) return;
+            sessionRemove(cacheReloadKey);
+            setCache("cached — offline ready", true);
+            go();
+        }, 5000);
+    }
+}());
+</script>
+
+<style id="pspulse-support-style">
+.pspulse-support{position:fixed;left:18px;bottom:18px;z-index:2147483647;display:block;padding:10px 15px;border:1px solid var(--tx);border-radius:4px;background:#17151f;color:var(--tx)!important;font:600 13px Tahoma,sans-serif;letter-spacing:.2px;text-decoration:none;box-shadow:0 4px 16px rgba(0,0,0,.32)}
+.pspulse-support:hover,.pspulse-support:focus{background:var(--tx);color:#101014!important;outline:none}
+</style>
+<a class="pspulse-support" href="https://sudoblackarch.github.io/support/" aria-label="Support me">Support me!</a>
+</body>
+</html>

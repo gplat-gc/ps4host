@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <link rel="icon" type="image/png" href="pspulse.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gplat_GC // منوی هاست پلی‌استیشن ۴</title>
+    <style>
+        :root {
+            --bg:    #0c0900;
+            --card:  #131005;
+            --cardh: #1a1508;
+            --line:  #3a2f10;
+            --lineb: #5a4820;
+            --tx:    #ffb81c;
+            --tx2:   #ffd24d;
+            --mu:    #c8962a;
+            --dim:   #6a5215;
+            --gr:    #34d399;
+            --warn:  #f97316;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { min-height: 100%; }
+        body {
+            background:
+                radial-gradient(circle at 80% 0%,   #ffb81c1c, transparent 50%),
+                radial-gradient(circle at 10% 100%, #ffb81c0e, transparent 45%),
+                var(--bg);
+            color: var(--tx);
+            font-family: Tahoma, Vazirmatn, sans-serif;
+            min-height: 100vh;
+        }
+        a { color: inherit; text-decoration: none; }
+
+        .app {
+            display: flex;
+            flex-direction: column;
+            margin: 0 auto;
+            max-width: 680px;
+            min-height: 100vh;
+            padding: 16px 14px 28px;
+        }
+
+        /* ─── Header ─── */
+        .bar {
+            align-items: center;
+            background: #100d02;
+            border: 1px solid var(--line);
+            border-top: 3px solid var(--tx);
+            border-radius: 0 0 12px 12px;
+            display: flex;
+            font-size: 13px;
+            justify-content: space-between;
+            margin-bottom: 22px;
+            padding: 10px 16px;
+        }
+        .bar-brand {
+            color: var(--tx2);
+            filter: drop-shadow(0 0 8px #ffb81c88);
+            font-size: 18px;
+            font-weight: 700;
+        }
+        .bar-right { align-items: center; color: var(--mu); display: flex; font-size: 12px; gap: 7px; }
+        .dot {
+            animation: blink 2s infinite;
+            background: var(--gr);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--gr);
+            display: inline-block;
+            height: 8px;
+            width: 8px;
+        }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.25} }
+
+        /* ─── Page title ─── */
+        .page-title { margin-bottom: 20px; }
+        .page-title h1 { color: var(--tx2); font-size: 24px; font-weight: 700; margin-bottom: 5px; }
+        .page-title p  { color: var(--mu); font-size: 13px; }
+
+        /* ─── Cards ─── */
+        .cards { display: flex; flex-direction: column; gap: 12px; }
+
+        .row {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            display: block;
+            overflow: hidden;
+            transition: border-color .15s, box-shadow .15s, background .15s;
+        }
+        .row:hover, .row:focus {
+            background: var(--cardh);
+            border-color: var(--tx);
+            box-shadow: 0 0 22px #ffb81c40;
+            outline: 0;
+        }
+
+        .card-top {
+            align-items: flex-start;
+            display: flex;
+            justify-content: space-between;
+            padding: 14px 16px 8px;
+        }
+        .card-icon {
+            align-items: center;
+            background: #1e1800;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            display: flex;
+            flex-shrink: 0;
+            font-size: 22px;
+            height: 46px;
+            justify-content: center;
+            width: 46px;
+        }
+        .card-ver {
+            flex: 1;
+            padding-right: 12px;
+            text-align: left;
+        }
+        .ver-range {
+            color: var(--tx2);
+            direction: ltr;
+            display: block;
+            filter: drop-shadow(0 0 5px #ffb81c55);
+            font-size: 28px;
+            font-weight: 700;
+            line-height: 1;
+            text-align: left;
+        }
+        .ver-num {
+            color: var(--dim);
+            direction: ltr;
+            display: block;
+            font-size: 11px;
+            margin-top: 4px;
+            text-align: left;
+        }
+
+        .card-method {
+            align-items: center;
+            border-top: 1px solid var(--line);
+            display: flex;
+            gap: 9px;
+            margin: 0 16px;
+            padding: 10px 0;
+        }
+        .mdot {
+            background: var(--tx);
+            border-radius: 50%;
+            box-shadow: 0 0 7px var(--tx);
+            flex-shrink: 0;
+            height: 9px;
+            width: 9px;
+        }
+        .method-label { color: var(--tx); font-size: 14px; }
+        .method-label b { color: var(--tx2); }
+
+        .card-btn {
+            align-items: center;
+            background: #0f0c02;
+            border-top: 1px solid var(--line);
+            color: var(--tx2);
+            display: flex;
+            font-size: 15px;
+            font-weight: 700;
+            gap: 8px;
+            justify-content: center;
+            padding: 13px;
+        }
+        .row:hover .card-btn, .row:focus .card-btn { background: var(--cardh); }
+
+        /* ─── Notice ─── */
+        .notice {
+            background: #110b00;
+            border: 1px dashed var(--lineb);
+            border-radius: 14px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+        .notice-head {
+            align-items: center;
+            background: #1a1000;
+            border-bottom: 1px solid var(--line);
+            color: var(--warn);
+            display: flex;
+            font-size: 14px;
+            font-weight: 700;
+            gap: 8px;
+            padding: 10px 16px;
+        }
+        .notice-body {
+            color: var(--mu);
+            font-size: 13px;
+            line-height: 1.9;
+            padding: 13px 16px;
+        }
+        .notice-body b { color: var(--tx); }
+
+        /* ─── Footer ─── */
+        .foot {
+            border: 1px dashed var(--line);
+            border-radius: 14px;
+            color: var(--mu);
+            font-size: 14px;
+            line-height: 1.9;
+            margin-top: 16px;
+            padding: 15px 16px;
+            text-align: center;
+        }
+        .foot .brand { color: var(--tx2); display: block; font-size: 16px; font-weight: 700; margin-bottom: 3px; }
+        .foot .addr  { color: var(--dim); display: block; font-size: 12px; }
+        .foot .social { color: var(--mu); font-size: 12px; margin-top: 6px; }
+        .foot .social b { color: var(--tx); }
+
+        @media (min-width: 800px) {
+            .app { max-width: 960px; }
+            .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+            .ver-range { font-size: 32px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+
+        <header class="bar">
+            <span class="bar-brand">🎮 Gplat_GC</span>
+            <span class="bar-right"><span class="dot"></span>آماده و ایمن</span>
+        </header>
+
+        <div class="page-title">
+            <h1>انتخاب فریم‌ور کنسول</h1>
+            <p>نسخه فریم‌ور پلی‌استیشن ۴ خود را انتخاب کنید — کلید X</p>
+        </div>
+
+        <nav class="cards">
+
+            <a class="row" href="1352/index.html">
+                <div class="card-top">
+                    <div class="card-icon">🔧</div>
+                    <div class="card-ver">
+                        <span class="ver-range">13.02 — 13.52</span>
+                        <span class="ver-num">01</span>
+                    </div>
+                </div>
+                <div class="card-method">
+                    <span class="mdot"></span>
+                    <span class="method-label">روش: <b>GoldHEN · Slopkit</b></span>
+                </div>
+                <div class="card-btn">ورود به هاست →</div>
+            </a>
+
+            <a class="row" href="1300/index.html">
+                <div class="card-top">
+                    <div class="card-icon">🔧</div>
+                    <div class="card-ver">
+                        <span class="ver-range">11.00 — 13.00</span>
+                        <span class="ver-num">02</span>
+                    </div>
+                </div>
+                <div class="card-method">
+                    <span class="mdot"></span>
+                    <span class="method-label">روش: <b>Slopkit · WebKit</b></span>
+                </div>
+                <div class="card-btn">ورود به هاست →</div>
+            </a>
+
+            <a class="row" href="css/version-selector.html">
+                <div class="card-top">
+                    <div class="card-icon">🌀</div>
+                    <div class="card-ver">
+                        <span class="ver-range">6.00 — 11.02</span>
+                        <span class="ver-num">03</span>
+                    </div>
+                </div>
+                <div class="card-method">
+                    <span class="mdot"></span>
+                    <span class="method-label">روش: <b>CSS · GoldHEN</b></span>
+                </div>
+                <div class="card-btn">ورود به هاست →</div>
+            </a>
+
+            <a class="row" href="900/version-selector.html">
+                <div class="card-top">
+                    <div class="card-icon">🌀</div>
+                    <div class="card-ver">
+                        <span class="ver-range">9.00 — 9.60</span>
+                        <span class="ver-num">04</span>
+                    </div>
+                </div>
+                <div class="card-method">
+                    <span class="mdot"></span>
+                    <span class="method-label">روش: <b>PSFree · Lapse</b></span>
+                </div>
+                <div class="card-btn">ورود به هاست →</div>
+            </a>
+
+            <a class="row" href="700/version-selector.html">
+                <div class="card-top">
+                    <div class="card-icon">🌀</div>
+                    <div class="card-ver">
+                        <span class="ver-range">7.00 — 8.52</span>
+                        <span class="ver-num">05</span>
+                    </div>
+                </div>
+                <div class="card-method">
+                    <span class="mdot"></span>
+                    <span class="method-label">روش: <b>PSFree · Lapse</b></span>
+                </div>
+                <div class="card-btn">ورود به هاست →</div>
+            </a>
+
+            <a class="row" href="672/index.html">
+                <div class="card-top">
+                    <div class="card-icon">⚡</div>
+                    <div class="card-ver">
+                        <span class="ver-range">6.72</span>
+                        <span class="ver-num">06</span>
+                    </div>
+                </div>
+                <div class="card-method">
+                    <span class="mdot"></span>
+                    <span class="method-label">روش: <b>هاست اختصاصی</b></span>
+                </div>
+                <div class="card-btn">ورود به هاست →</div>
+            </a>
+
+            <a class="row" href="505/index.html">
+                <div class="card-top">
+                    <div class="card-icon">⚡</div>
+                    <div class="card-ver">
+                        <span class="ver-range">5.05</span>
+                        <span class="ver-num">07</span>
+                    </div>
+                </div>
+                <div class="card-method">
+                    <span class="mdot"></span>
+                    <span class="method-label">روش: <b>هاست اختصاصی</b></span>
+                </div>
+                <div class="card-btn">ورود به هاست →</div>
+            </a>
+
+        </nav>
+
+        <section class="notice">
+            <div class="notice-head">⚠️ شرایط و توضیحات خدمات</div>
+            <div class="notice-body">
+                خدمات <b>کپی‌خور (جیلبریک)</b> به صورت یک‌بار ارائه می‌شود.<br>
+                هرگونه مشکل احتمالی ناشی از <b>بروزرسانی سیستم</b>، ریست‌فکتوری یا استفاده نادرست
+                <b>برعهده مشتری</b> می‌باشد.<br>
+                برای راهنمایی و پشتیبانی در حین فرآیند با ما تماس بگیرید.
+            </div>
+        </section>
+
+        <footer class="foot">
+            <span class="brand">🎮 گیم سنتر جی پلات — Gplat_GC</span>
+            <span class="addr">استان تهران، پاکدشت، بلوار آموزش و پرورش، جنب آموزش و پرورش، پلاک ۲۵۵</span>
+            <div class="social">📞 <b>09108683559</b></div>
+            <div class="social">اینستاگرام: <b>@Gplat_GC</b></div>
+        </footer>
+
+    </div>
+
+    <script>
+        (function () {
+            var first = document.querySelector('.row');
+            if (first) first.focus();
+        })();
+    </script>
+</body>
+</html>
