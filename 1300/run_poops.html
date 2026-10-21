@@ -32,7 +32,7 @@
         color: var(--tx);
         font: 16px/1.45 Tahoma, Vazirmatn, sans-serif;
         min-height: 100vh;
-        overflow: hidden;
+        overflow-y: auto;
     }
 
     .app { margin: 0 auto; padding: 14px 26px 12px; width: min(100% - 52px, 1220px); }
@@ -78,6 +78,20 @@
         white-space: pre-wrap;
     }
 
+    /* باکس مهم */
+    .note {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 10px 18px;
+        margin-top: 14px;
+        font-size: 14px;
+    }
+    .note-title { color: var(--tx2); font-weight: 700; text-align: center; margin-bottom: 4px; }
+    .note ul { padding-right: 20px; color: var(--tx); }
+    .note li { margin: 3px 0; }
+    .note li::marker { color: var(--tx2); }
+
     @media (max-width: 760px) {
         .app { padding: 8px 10px; width: min(100% - 20px, 560px); }
         .bar { font-size: 12px; padding: 8px 12px; }
@@ -92,6 +106,15 @@
             <span class="bar-brand">🎮 Gplat_GC</span>
             <span class="bar-chain">poops chain</span>
         </header>
+
+        <div class="note">
+            <div class="note-title">مهم</div>
+            <ul>
+                <li>در صورتی که با خطا مواجه شدید دوباره تلاش نکنید. فقط کنسول را ری‌استارت کنید و تلاش کنید.</li>
+                <li>این جیلبریک جدید و این هاست در فریمور های 11.00 تا 13.00 هیچ نیازی به فلش ندارد.</li>
+                <li>گلدهن بعد از چند ثانیه به صورت اتوماتیک لود می‌شود.</li>
+            </ul>
+        </div>
 
         <div id="state">در حال بارگذاری poops chain...</div>
         <div id="out"></div>
