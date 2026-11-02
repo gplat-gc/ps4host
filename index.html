@@ -4,361 +4,226 @@
     <link rel="icon" type="image/png" href="pspulse.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gplat_GC // منوی هاست پلی‌استیشن ۴</title>
+    <title>Gplat Game Center // منوی هاست پلی‌استیشن ۴</title>
     <style>
         :root {
-            --bg:    #0c0900;
-            --card:  #131005;
-            --cardh: #1a1508;
-            --line:  #3a2f10;
-            --lineb: #5a4820;
-            --tx:    #ffb81c;
-            --tx2:   #ffd24d;
-            --mu:    #c8962a;
-            --dim:   #6a5215;
-            --gr:    #34d399;
-            --warn:  #f97316;
+            --bg: #0c0900;
+            --panel: #131005;
+            --panel-2: #131005;
+            --line: #3a2f10;
+            --line-bright: #ffb81c;
+            --text: #ffd24d;
+            --muted: #c8962a;
+            --dim: #6a5215;
+            --accent: #ffb81c;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { min-height: 100%; }
+
+        * { box-sizing: border-box; }
+        html { background: var(--bg); }
+        html, body { margin: 0; min-height: 100%; }
         body {
-            background:
-                radial-gradient(circle at 80% 0%,   #ffb81c1c, transparent 50%),
-                radial-gradient(circle at 10% 100%, #ffb81c0e, transparent 45%),
-                var(--bg);
-            color: var(--tx);
-            font-family: Tahoma, Vazirmatn, sans-serif;
-            min-height: 100vh;
+            background-color: var(--bg);
+            color: var(--text);
+            font: 16px/1.5 Tahoma, Consolas, monospace;
         }
         a { color: inherit; text-decoration: none; }
 
-        .app {
-            display: flex;
-            flex-direction: column;
-            margin: 0 auto;
-            max-width: 680px;
-            min-height: 100vh;
-            padding: 16px 14px 28px;
-        }
+        .app { display: flex; flex-direction: column; margin: 0 auto; max-width: 1220px; min-height: 100vh; padding: 14px 26px; }
 
-        /* ─── Header ─── */
         .bar {
             align-items: center;
-            background: #100d02;
-            border: 1px solid var(--line);
-            border-top: 3px solid var(--tx);
-            border-radius: 0 0 12px 12px;
+            border: 1px solid var(--line-bright);
             display: flex;
-            font-size: 13px;
+            font-size: 14px;
             justify-content: space-between;
-            margin-bottom: 22px;
             padding: 10px 16px;
         }
-        .bar-brand {
-            color: var(--tx2);
-            filter: drop-shadow(0 0 8px #ffb81c88);
-            font-size: 18px;
-            font-weight: 700;
-        }
-        .bar-right { align-items: center; color: var(--mu); display: flex; font-size: 12px; gap: 7px; }
-        .dot {
-            animation: blink 2s infinite;
-            background: var(--gr);
-            border-radius: 50%;
-            box-shadow: 0 0 8px var(--gr);
-            display: inline-block;
-            height: 8px;
-            width: 8px;
-        }
-        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.25} }
+        .bar b { color: var(--accent); }
 
-        /* ─── Page title ─── */
-        .page-title { margin-bottom: 20px; }
-        .page-title h1 { color: var(--tx2); font-size: 24px; font-weight: 700; margin-bottom: 5px; }
-        .page-title p  { color: var(--mu); font-size: 13px; }
+        .layout { display: flex; flex-direction: column; padding: 22px 0 0; }
 
-        /* ─── Cards ─── */
-        .cards { display: flex; flex-direction: column; gap: 12px; }
+        h1 { font-size: 36px; font-weight: normal; margin: 0 0 10px 0; }
+        h1 em { color: var(--accent); font-style: normal; }
+        .sub { color: var(--muted); font-size: 16px; margin: 0 0 20px 0; }
+
+        .menu { border: 1px solid var(--line); padding: 14px; background: var(--panel); }
+        .menu-top { border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; color: var(--accent); font-weight: bold; }
+        
+        .grid { display: grid; gap: 8px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
         .row {
-            background: var(--card);
+            align-items: center;
+            background: var(--panel-2);
             border: 1px solid var(--line);
-            border-radius: 14px;
-            display: block;
-            overflow: hidden;
-            transition: border-color .15s, box-shadow .15s, background .15s;
+            display: flex;
+            min-height: 65px;
+            padding: 10px 14px;
         }
         .row:hover, .row:focus {
-            background: var(--cardh);
-            border-color: var(--tx);
-            box-shadow: 0 0 22px #ffb81c40;
+            border-color: var(--accent);
             outline: 0;
+            background: #1a1508;
         }
+        .num { color: var(--dim); font-size: 14px; min-width: 35px; }
+        .name { display: block; font-size: 17px; }
+        .meta { color: var(--muted); display: block; font-size: 12px; margin-top: 2px; }
+        .go { color: var(--accent); font-size: 13px; margin-right: auto; }
 
-        .card-top {
-            align-items: flex-start;
-            display: flex;
-            justify-content: space-between;
-            padding: 14px 16px 8px;
-        }
-        .card-icon {
-            align-items: center;
-            background: #1e1800;
-            border: 1px solid var(--line);
-            border-radius: 10px;
-            display: flex;
-            flex-shrink: 0;
-            font-size: 22px;
-            height: 46px;
-            justify-content: center;
-            width: 46px;
-        }
-        .card-ver {
-            flex: 1;
-            padding-right: 12px;
-            text-align: left;
-        }
-        .ver-range {
-            color: var(--tx2);
-            direction: ltr;
-            display: block;
-            filter: drop-shadow(0 0 5px #ffb81c55);
-            font-size: 28px;
-            font-weight: 700;
-            line-height: 1;
-            text-align: left;
-        }
-        .ver-num {
-            color: var(--dim);
-            direction: ltr;
-            display: block;
-            font-size: 11px;
-            margin-top: 4px;
-            text-align: left;
-        }
-
-        .card-method {
-            align-items: center;
-            border-top: 1px solid var(--line);
-            display: flex;
-            gap: 9px;
-            margin: 0 16px;
-            padding: 10px 0;
-        }
-        .mdot {
-            background: var(--tx);
-            border-radius: 50%;
-            box-shadow: 0 0 7px var(--tx);
-            flex-shrink: 0;
-            height: 9px;
-            width: 9px;
-        }
-        .method-label { color: var(--tx); font-size: 14px; }
-        .method-label b { color: var(--tx2); }
-
-        .card-btn {
-            align-items: center;
-            background: #0f0c02;
-            border-top: 1px solid var(--line);
-            color: var(--tx2);
-            display: flex;
-            font-size: 15px;
-            font-weight: 700;
-            gap: 8px;
-            justify-content: center;
-            padding: 13px;
-        }
-        .row:hover .card-btn, .row:focus .card-btn { background: var(--cardh); }
-
-        /* ─── Notice ─── */
-        .notice {
-            background: #110b00;
-            border: 1px dashed var(--lineb);
-            border-radius: 14px;
-            margin-top: 20px;
-            overflow: hidden;
-        }
-        .notice-head {
-            align-items: center;
-            background: #1a1000;
-            border-bottom: 1px solid var(--line);
-            color: var(--warn);
-            display: flex;
-            font-size: 14px;
-            font-weight: 700;
-            gap: 8px;
-            padding: 10px 16px;
-        }
-        .notice-body {
-            color: var(--mu);
-            font-size: 13px;
-            line-height: 1.9;
-            padding: 13px 16px;
-        }
-        .notice-body b { color: var(--tx); }
-
-        /* ─── Footer ─── */
         .foot {
-            border: 1px dashed var(--line);
-            border-radius: 14px;
-            color: var(--mu);
-            font-size: 14px;
-            line-height: 1.9;
-            margin-top: 16px;
-            padding: 15px 16px;
+            border-top: 1px solid var(--line);
+            color: var(--dim);
+            font-size: 13px;
+            margin-top: 20px;
+            padding-top: 12px;
             text-align: center;
         }
-        .foot .brand { color: var(--tx2); display: block; font-size: 16px; font-weight: 700; margin-bottom: 3px; }
-        .foot .addr  { color: var(--dim); display: block; font-size: 12px; }
-        .foot .social { color: var(--mu); font-size: 12px; margin-top: 6px; }
-        .foot .social b { color: var(--tx); }
 
-        @media (min-width: 800px) {
-            .app { max-width: 960px; }
-            .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
-            .ver-range { font-size: 32px; }
+        @media (max-width: 760px) {
+            .grid { grid-template-columns: 1fr; }
+            h1 { font-size: 28px; }
         }
     </style>
-</head>
+<style id="gplat-theme">
+:root{--bg:#0c0900;--card:#131005;--cardh:#1a1508;--line:#3a2f10;--lineb:#5a4820;--tx:#ffb81c;--tx2:#ffd24d;--mu:#c8962a;--dim:#6a5215;--gr:#34d399;--rd:#ef4444;--warn:#f97316;
+--panel:#131005;--panel-2:#1a1508;--line-bright:#5a4820;--text:#ffb81c;--muted:#c8962a;--accent:#ffb81c;--red:#ef4444;--amber:#f97316;}
+html{background:var(--bg);}
+body{background:radial-gradient(circle at 80% 0%,#ffb81c1c,transparent 50%),radial-gradient(circle at 10% 100%,#ffb81c0e,transparent 45%),var(--bg) !important;background-size:auto !important;color:var(--tx);font-family:Tahoma,Vazirmatn,sans-serif !important;direction:rtl;}
+.bar{background:#100d02 !important;border:1px solid var(--line) !important;border-top:3px solid var(--tx) !important;border-radius:0 0 12px 12px;display:flex;justify-content:space-between;align-items:center;padding:10px 16px;margin-bottom:20px;letter-spacing:0 !important;text-transform:none !important;font-family:Tahoma,Vazirmatn,sans-serif;}
+.bar-brand{color:var(--tx2);filter:drop-shadow(0 0 7px #ffb81c88);font-size:17px;font-weight:700;direction:ltr;}
+.bar-right{align-items:center;color:var(--mu);display:flex;font-size:12px;gap:7px;}
+.bar-right::before,.bar-fw::before,.bar-chain::before{content:none !important;}
+.gp-dot{animation:gpblink 2s infinite;background:var(--gr);border-radius:50%;box-shadow:0 0 7px var(--gr);display:inline-block;height:8px;width:8px;}
+@keyframes gpblink{0%,100%{opacity:1}50%{opacity:.25}}
+.layout{padding-top:0 !important;gap:14px;}
+.kicker{color:var(--mu) !important;font-size:12px !important;direction:ltr;text-align:right;}
+h1{color:var(--tx2) !important;filter:drop-shadow(0 0 8px #ffb81c44);font-weight:700 !important;letter-spacing:0 !important;}
+h1 em{color:var(--tx2) !important;}
+.sub{color:var(--mu) !important;}
+.boot{display:flex;flex-wrap:wrap;gap:6px;list-style:none;}
+.boot li{background:#1a1508;border:1px solid var(--line);border-radius:8px;color:var(--gr) !important;font-size:12px;padding:3px 10px;margin:0 !important;}
+.status,.menu,.controls,.progress-container,.nodeplay,.version-card,.row{background:var(--card) !important;border:1px solid var(--line) !important;border-radius:14px !important;}
+.status{border-right:4px solid var(--tx) !important;}
+.nodeplay:hover,.nodeplay:focus,.version-card:hover,.version-card:focus,.version-card.selected,.row:hover,.row:focus{background:var(--cardh) !important;border-color:var(--tx) !important;box-shadow:0 0 20px #ffb81c40 !important;outline:0;}
+button{background:var(--card) !important;border:1px solid var(--line) !important;border-radius:10px !important;color:var(--tx) !important;font-family:Tahoma,Vazirmatn,sans-serif !important;transition:border-color .15s,box-shadow .15s;}
+button:hover,button:focus{background:var(--cardh) !important;border-color:var(--tx) !important;box-shadow:0 0 20px #ffb81c40 !important;outline:0;}
+#state{color:var(--tx) !important;font-family:Tahoma,Vazirmatn,sans-serif !important;font-weight:700 !important;}
+#det,#cache{font-family:Consolas,monospace;direction:ltr;text-align:right;}
+#cache.cacheok{color:var(--gr) !important;}
+.ok{color:var(--gr) !important;}
+.bad{color:var(--rd) !important;}
+.warn{color:var(--warn) !important;}
+#out{background:#080600 !important;border:1px solid var(--line) !important;border-radius:12px !important;direction:ltr;text-align:left;font-family:Consolas,"Liberation Mono",monospace !important;height:calc(100vh - 140px) !important;color:var(--tx2) !important;}
+.progress-bar{border-radius:10px !important;overflow:hidden;}
+.progress-fill{background:linear-gradient(90deg,#7a4800,var(--tx)) !important;box-shadow:0 0 14px #ffb81c55 !important;border-radius:10px !important;}
+.guide{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:14px;}
+.guide-head{background:#1a1000;border-bottom:1px solid var(--line);color:var(--warn);font-size:14px;font-weight:700;padding:11px 16px;}
+.guide-body{display:flex;flex-direction:column;}
+.guide-card{border-top:1px solid var(--line);padding:11px 16px;}
+.guide-card:first-child{border-top:none;}
+.gc-warn{border-right:4px solid var(--warn);}.gc-green{border-right:4px solid var(--gr);}.gc-red{border-right:4px solid var(--rd);}.gc-crit{background:#160800;border-right:4px solid #ff4444;}
+.gc-title{align-items:center;display:flex;font-size:13px;font-weight:700;gap:8px;margin-bottom:5px;color:var(--tx);}
+.gc-dot{border-radius:50%;display:inline-block;flex-shrink:0;height:9px;width:9px;}
+.guide-card p{color:var(--mu);font-size:13px;line-height:1.7;margin:0;}
+.guide-card strong{color:var(--tx2);}
+.guide-card code{background:#0a0700;border:1px solid var(--line);border-radius:4px;color:var(--tx2);font:12px Consolas,monospace;padding:1px 6px;}
+.foot{border:1px dashed var(--line) !important;border-radius:14px;color:var(--mu);font-size:13px;line-height:1.9;padding:14px 16px !important;text-align:center;margin-top:14px;font-family:Tahoma,Vazirmatn,sans-serif;}
+.foot-brand{color:var(--tx2);display:block;font-size:15px;font-weight:700;margin-bottom:2px;}
+.foot-addr{color:var(--dim);display:block;font-size:12px;}
+.foot-contact{color:var(--tx);display:block;font-size:13px;font-weight:700;margin-top:4px;}
+.foot-credit{color:var(--dim);display:block;font-size:11px;margin-top:6px;direction:ltr;}
+.foot a{color:var(--mu);text-decoration:none;}.foot a:hover{color:var(--tx);}
+.pspulse-support{border-color:var(--tx) !important;color:var(--tx) !important;background:var(--card) !important;border-radius:10px !important;}
+.pspulse-support:hover,.pspulse-support:focus{background:var(--tx) !important;color:var(--bg) !important;}
+</style>
+
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;900&display=swap" rel="stylesheet"><style id="gplat-final">
+:root{--bg:#0c0900;--card:#141005;--cardh:#1c1607;--line:#3d3112;--tx:#ffb81c;--tx2:#ffd24d;--mu:#d9a83a;--gr:#34d399;}
+html,body{background:var(--bg)!important;overflow-y:auto!important;}
+body{background:radial-gradient(circle at 80% 0%,#ffb81c1f,transparent 50%),var(--bg)!important;color:var(--tx)!important;font-family:Vazirmatn,Tahoma,sans-serif!important;font-size:14px!important;line-height:1.7!important;}
+*{font-family:Vazirmatn,Tahoma,sans-serif!important;letter-spacing:0!important;}
+.app{width:94%!important;max-width:1200px!important;margin:0 auto!important;padding:16px 20px!important;box-sizing:border-box;}
+.bar-brand{font-size:17px!important;font-weight:700!important;}
+.bar-right{font-size:12px!important;}
+.layout{position:relative!important;}
+h1{font-size:30px!important;font-weight:800!important;color:var(--tx2)!important;line-height:1.4!important;display:block!important;min-height:0!important;padding-left:0!important;flex-wrap:wrap!important;}
+.gp-risk{background:#1c1302;border:2px solid var(--tx);border-right:6px solid var(--tx);border-radius:12px;padding:12px 16px;margin:10px 0 16px;color:var(--tx2);font-size:14px!important;font-weight:700!important;line-height:1.8;}
+.gp-risk strong{display:block;font-size:15px;color:var(--tx);}
+.sub,.menu-top,.meta,.go,.kicker,.page-kicker,.boot li,#det,#cache,.version-description,.version-badge,.np-label,.np-open,.status-meta,.section-title{font-size:13px!important;line-height:1.7!important;}
+.row,.version-card,.nodeplay,.status,.menu,.guide,.controls,.progress-container{background:var(--card)!important;border:1px solid var(--line)!important;border-radius:12px!important;}
+.row{min-height:0!important;padding:12px 16px!important;}
+.row:hover,.row:focus,.version-card:hover,.version-card:focus,.nodeplay:hover,.nodeplay:focus,button:hover,button:focus{border-color:var(--tx)!important;background:var(--cardh)!important;}
+.name,.version-title,.version-number,.np-name{font-size:16px!important;font-weight:800!important;color:var(--tx)!important;}
+#state,#msgs,#msgs2,.notice,.guide-head,.gc-title,.progress-text,.status-message{font-size:15px!important;font-weight:800!important;}
+.guide-card p{font-size:13px!important;line-height:1.8!important;}
+.guide-card code{font-size:12px!important;font-family:Consolas,monospace!important;}
+button{font-size:14px!important;font-weight:700!important;min-height:0!important;border-radius:10px!important;color:var(--tx)!important;}
+#out,#log,#console{font-size:10px!important;line-height:1.35!important;height:70px!important;max-height:70px!important;width:100%!important;max-width:480px!important;overflow:auto!important;direction:ltr!important;text-align:left!important;border-radius:6px!important;}
+#out *,#log *,#console *{font-size:10px!important;font-family:Consolas,monospace!important;}
+.foot,.foot-addr,.foot-contact,.foot-credit{font-size:12px!important;}
+.foot-brand{font-size:14px!important;}
+</style></head>
 <body>
     <div class="app">
-
         <header class="bar">
-            <span class="bar-brand">🎮 Gplat_GC</span>
-            <span class="bar-right"><span class="dot"></span>آماده و ایمن</span>
+            <span class="bar-brand">Gplat Game Center</span>
+            <span class="bar-right"><span class="gp-dot"></span>آماده و ایمن</span>
         </header>
 
-        <div class="page-title">
-            <h1>انتخاب فریم‌ور کنسول</h1>
-            <p>نسخه فریم‌ور پلی‌استیشن ۴ خود را انتخاب کنید — کلید X</p>
-        </div>
+        <main class="layout">
+            <h1>انتخاب نسخه <em>فریم‌ور</em></h1><div class="gp-risk"><strong>⚠️ هشدار مهم</strong>کپی‌خور کردن کنسول خطراتی مثل خرابی سیستم، بن شدن حساب و از بین رفتن گارانتی دارد و تمام مسئولیت آن به عهده خود مشتری است.</div>
+            <p class="sub">لطفاً نسخه فریم‌ور کنسول خود را انتخاب کنید:</p>
 
-        <nav class="cards">
+            <section class="menu">
+                <div class="menu-top">
+                    <span>مسیرهای دسترس</span>
+                    <span>راهنما: کلید X انتخاب</span>
+                </div>
+                <nav class="grid">
+                    <a class="row" href="1352/index.html">
+                        <span class="num">۰۱</span>
+                        <span><span class="name">فریم‌ور 13.02 الی 13.52</span><span class="meta">اسلاپ‌کیت گلدهن</span></span>
+                        <span class="go">[ انتخاب ]</span>
+                    </a>
+                    <a class="row" href="1300/index.html">
+                        <span class="num">۰۲</span>
+                        <span><span class="name">فریم‌ور 11.00 الی 13.00</span><span class="meta">وب‌کیت اسلاپ‌کیت</span></span>
+                        <span class="go">[ انتخاب ]</span>
+                    </a>
+                    <a class="row" href="css/version-selector.html">
+                        <span class="num">۰۳</span>
+                        <span><span class="name">فریم‌ور 6.00 الی 11.02</span><span class="meta">متد CSS // گلدهن</span></span>
+                        <span class="go">[ انتخاب ]</span>
+                    </a>
+                    <a class="row" href="900/version-selector.html">
+                        <span class="num">۰۴</span>
+                        <span><span class="name">فریم‌ور 9.00 الی 9.60</span><span class="meta">پی‌اس‌فری / لاپس</span></span>
+                        <span class="go">[ انتخاب ]</span>
+                    </a>
+                    <a class="row" href="700/version-selector.html">
+                        <span class="num">۰۵</span>
+                        <span><span class="name">فریم‌ور 7.00 الی 8.52</span><span class="meta">پی‌اس‌فری / لاپس</span></span>
+                        <span class="go">[ انتخاب ]</span>
+                    </a>
+                    <a class="row" href="672/index.html">
+                        <span class="num">۰۶</span>
+                        <span><span class="name">فریم‌ور 6.72</span><span class="meta">هاست اختصاصی و پی‌لودها</span></span>
+                        <span class="go">[ انتخاب ]</span>
+                    </a>
+                    <a class="row" href="505/index.html">
+                        <span class="num">۰۷</span>
+                        <span><span class="name">فریم‌ور 5.05</span><span class="meta">هاست اختصاصی و پی‌لودها</span></span>
+                        <span class="go">[ انتخاب ]</span>
+                    </a>
+                </nav>
+            </section>
 
-            <a class="row" href="1352/index.html">
-                <div class="card-top">
-                    <div class="card-icon">🔧</div>
-                    <div class="card-ver">
-                        <span class="ver-range">13.02 — 13.52</span>
-                        <span class="ver-num">01</span>
-                    </div>
-                </div>
-                <div class="card-method">
-                    <span class="mdot"></span>
-                    <span class="method-label">روش: <b>GoldHEN · Slopkit</b></span>
-                </div>
-                <div class="card-btn">ورود به هاست →</div>
-            </a>
-
-            <a class="row" href="1300/index.html">
-                <div class="card-top">
-                    <div class="card-icon">🔧</div>
-                    <div class="card-ver">
-                        <span class="ver-range">11.00 — 13.00</span>
-                        <span class="ver-num">02</span>
-                    </div>
-                </div>
-                <div class="card-method">
-                    <span class="mdot"></span>
-                    <span class="method-label">روش: <b>Slopkit · WebKit</b></span>
-                </div>
-                <div class="card-btn">ورود به هاست →</div>
-            </a>
-
-            <a class="row" href="css/version-selector.html">
-                <div class="card-top">
-                    <div class="card-icon">🌀</div>
-                    <div class="card-ver">
-                        <span class="ver-range">6.00 — 11.02</span>
-                        <span class="ver-num">03</span>
-                    </div>
-                </div>
-                <div class="card-method">
-                    <span class="mdot"></span>
-                    <span class="method-label">روش: <b>CSS · GoldHEN</b></span>
-                </div>
-                <div class="card-btn">ورود به هاست →</div>
-            </a>
-
-            <a class="row" href="900/version-selector.html">
-                <div class="card-top">
-                    <div class="card-icon">🌀</div>
-                    <div class="card-ver">
-                        <span class="ver-range">9.00 — 9.60</span>
-                        <span class="ver-num">04</span>
-                    </div>
-                </div>
-                <div class="card-method">
-                    <span class="mdot"></span>
-                    <span class="method-label">روش: <b>PSFree · Lapse</b></span>
-                </div>
-                <div class="card-btn">ورود به هاست →</div>
-            </a>
-
-            <a class="row" href="700/version-selector.html">
-                <div class="card-top">
-                    <div class="card-icon">🌀</div>
-                    <div class="card-ver">
-                        <span class="ver-range">7.00 — 8.52</span>
-                        <span class="ver-num">05</span>
-                    </div>
-                </div>
-                <div class="card-method">
-                    <span class="mdot"></span>
-                    <span class="method-label">روش: <b>PSFree · Lapse</b></span>
-                </div>
-                <div class="card-btn">ورود به هاست →</div>
-            </a>
-
-            <a class="row" href="672/index.html">
-                <div class="card-top">
-                    <div class="card-icon">⚡</div>
-                    <div class="card-ver">
-                        <span class="ver-range">6.72</span>
-                        <span class="ver-num">06</span>
-                    </div>
-                </div>
-                <div class="card-method">
-                    <span class="mdot"></span>
-                    <span class="method-label">روش: <b>هاست اختصاصی</b></span>
-                </div>
-                <div class="card-btn">ورود به هاست →</div>
-            </a>
-
-            <a class="row" href="505/index.html">
-                <div class="card-top">
-                    <div class="card-icon">⚡</div>
-                    <div class="card-ver">
-                        <span class="ver-range">5.05</span>
-                        <span class="ver-num">07</span>
-                    </div>
-                </div>
-                <div class="card-method">
-                    <span class="mdot"></span>
-                    <span class="method-label">روش: <b>هاست اختصاصی</b></span>
-                </div>
-                <div class="card-btn">ورود به هاست →</div>
-            </a>
-
-        </nav>
-
-        <section class="notice">
-            <div class="notice-head">⚠️ شرایط و توضیحات خدمات</div>
-            <div class="notice-body">
-                خدمات <b>کپی‌خور (جیلبریک)</b> به صورت یک‌بار ارائه می‌شود.<br>
-                هرگونه مشکل احتمالی ناشی از <b>بروزرسانی سیستم</b>، ریست‌فکتوری یا استفاده نادرست
-                <b>برعهده مشتری</b> می‌باشد.<br>
-                برای راهنمایی و پشتیبانی در حین فرآیند با ما تماس بگیرید.
-            </div>
-        </section>
-
-        <footer class="foot">
-            <span class="brand">🎮 گیم سنتر جی پلات — Gplat_GC</span>
-            <span class="addr">استان تهران، پاکدشت، بلوار آموزش و پرورش، جنب آموزش و پرورش، پلاک ۲۵۵</span>
-            <div class="social">📞 <b>09108683559</b></div>
-            <div class="social">اینستاگرام: <b>@Gplat_GC</b></div>
+            <footer class="foot">
+            <span class="foot-brand">گیم سنتر جی پلات — Gplat Game Center</span>
+            <span class="foot-addr">استان تهران، پاکدشت، بلوار آموزش و پرورش، جنب آموزش و پرورش، پلاک ۲۵۵</span>
+            <span class="foot-contact">📞 09108683559 &nbsp;|&nbsp; اینستاگرام: @Gplat Game Center</span>
+            <span class="foot-credit">Author: <a href="https://t.me/sudoBlackArch">BlackArch</a> // <a href="https://t.me/PlayStation_Pulse">PlayStation Pulse</a></span>
         </footer>
-
+        </main>
     </div>
 
     <script>
