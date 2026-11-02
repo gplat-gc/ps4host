@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" manifest="cache.manifest">
+<html lang="fa" dir="rtl" manifest="cache.manifest">
 
 <head>
     <link rel="icon" type="image/png" href="../../pspulse.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PSPULSE // PS4 6.00-11.02 HOST / 2.4B18.12</title>
+    <title>Gplat_GC // میزبان PS4 6.00-11.02 / 2.4B18.12</title>
     <style>
         :root {
             --bg: #151515;
@@ -194,59 +194,179 @@
             .chain-option { flex: 1; }
         }
     </style>
+
+    <style>
+        :root {
+            --bg: #0c0900; --panel: #131005; --panel-2: #1a1508;
+            --line: #3a2f10; --line-bright: #5a4820; --text: #ffb81c;
+            --muted: #d9a83a; --dim: #80651e; --accent: #ffb81c;
+            --red: #ef4444; --amber: #f97316;
+        }
+        html, body { min-height: 100%; background: var(--bg) !important; }
+        body {
+            background: radial-gradient(circle at 80% 0%, #ffb81c1f, transparent 50%),
+                        radial-gradient(circle at 10% 100%, #ffb81c0e, transparent 45%), var(--bg) !important;
+            color: var(--text) !important; direction: rtl;
+            font-family: Vazirmatn, Tahoma, sans-serif !important;
+            font-size: 14px; line-height: 1.7;
+        }
+        * { letter-spacing: 0 !important; }
+        .app { width: min(94%, 1200px) !important; padding: 16px 20px !important; }
+        .bar {
+            background: #100d02; border: 1px solid var(--line) !important;
+            border-top: 3px solid var(--accent) !important; border-radius: 0 0 12px 12px;
+            margin-bottom: 20px; padding: 10px 16px; text-transform: none;
+        }
+        .bar b { color: #ffd24d !important; direction: ltr; display: inline-block; }
+        .bar-fw { color: var(--muted) !important; }
+        .bar-fw::before { color: #34d399; content: "● "; }
+        .layout { gap: 14px; padding-top: 0; }
+        .kicker { color: var(--muted) !important; direction: ltr; text-align: right; font-size: 12px; }
+        h1 { color: #ffd24d !important; filter: drop-shadow(0 0 8px #ffb81c44); font-weight: 800 !important; letter-spacing: 0 !important; line-height: 1.4; }
+        h1 em { color: #ffd24d !important; font-style: normal; }
+        .sub { color: var(--muted) !important; }
+        .boot { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; }
+        .boot li { background: #1a1508; border: 1px solid var(--line); border-radius: 8px; color: #34d399 !important; font-size: 12px; padding: 3px 10px; margin: 0; }
+        .boot b { color: #34d399 !important; }
+        #UA { color: var(--dim); direction: ltr; text-align: left; overflow-wrap: anywhere; }
+        #cache { direction: rtl; text-align: right; }
+        .status, .controls, .nodeplay {
+            background: var(--panel) !important; border: 1px solid var(--line) !important;
+            border-radius: 12px !important;
+        }
+        .status { border-right: 4px solid var(--accent) !important; }
+        .status-label, .section-title { border-color: var(--line) !important; color: var(--muted) !important; font-size: 13px; }
+        #console { background: #080600 !important; border-color: var(--line) !important; border-radius: 8px; color: #ffd24d !important; direction: ltr; text-align: left; font-family: Consolas, "Liberation Mono", monospace !important; }
+        .controls { padding: 14px; }
+        #kernel-options { direction: rtl; }
+        .chain-label { color: var(--muted); }
+        .chain-options { direction: ltr; }
+        .chain-option, #jeilbrek, #reloadBtn, .auto-jb-label {
+            background: var(--panel) !important; border: 1px solid var(--line-bright) !important;
+            border-radius: 10px !important; color: var(--text) !important;
+            font-family: Vazirmatn, Tahoma, sans-serif !important;
+        }
+        #kernel-options input[type="radio"]:checked + .chain-option,
+        .chain-option:hover, #jeilbrek:hover, #jeilbrek:focus,
+        #reloadBtn:hover, #reloadBtn:focus, .auto-jb-label:hover {
+            background: var(--panel-2) !important; border-color: var(--accent) !important;
+            box-shadow: 0 0 18px #ffb81c30; color: #ffd24d !important;
+        }
+        .nodeplay { gap: 14px; }
+        .nodeplay:hover, .nodeplay:focus { background: var(--panel-2) !important; border-color: var(--accent) !important; box-shadow: 0 0 18px #ffb81c30; }
+        .np-label { color: var(--muted); }
+        .np-name { color: var(--text); direction: ltr; }
+        .np-name b, .np-open { color: var(--accent); }
+        .gp-risk { background: #1c1302; border: 2px solid var(--accent); border-right: 6px solid var(--accent); border-radius: 12px; color: #ffd24d; font-size: 14px; font-weight: 700; line-height: 1.8; margin: 10px 0 16px; padding: 12px 16px; }
+        .gp-risk strong { color: var(--accent); display: block; font-size: 15px; }
+        .guide { background: var(--panel) !important; border: 1px solid var(--line) !important; border-radius: 12px !important; margin-top: 14px; overflow: hidden; }
+        .guide-head { background: #1a1000; border-bottom: 1px solid var(--line); color: #f97316; font-size: 14px; font-weight: 700; padding: 11px 16px; }
+        .guide-body { display: flex; flex-direction: column; }
+        .guide-card { border-top: 1px solid var(--line); padding: 11px 16px; }
+        .guide-card:first-child { border-top: none; }
+        .gc-warn { border-right: 4px solid #f97316; }
+        .gc-crit { background: #160800; border-right: 4px solid #ff4444; }
+        .gc-title { align-items: center; color: var(--accent); display: flex; font-size: 13px; font-weight: 700; gap: 8px; margin-bottom: 5px; }
+        .gc-dot { border-radius: 50%; display: inline-block; flex-shrink: 0; height: 9px; width: 9px; }
+        .guide-card p { color: var(--muted); font-size: 13px; line-height: 1.8; margin: 0; }
+        .guide-card strong { color: #ffd24d; }
+        .foot {
+            border: 1px dashed var(--line) !important; border-radius: 14px;
+            color: var(--muted); font-family: Vazirmatn, Tahoma, sans-serif !important;
+            font-size: 12px; line-height: 1.9; margin-top: 14px; padding: 14px 16px !important;
+        }
+        .foot-brand { color: #ffd24d; display: block; font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+        .foot-addr { color: var(--dim); display: block; font-size: 12px; line-height: 1.9; }
+        .foot-contact { color: var(--text); display: block; font-size: 12px; font-weight: 700; margin-top: 4px; }
+        .foot-credit { color: var(--dim); direction: rtl; display: block; font-size: 11px; margin-top: 6px; }
+        .foot a { color: var(--muted); text-decoration: none; }
+        .foot a:hover, .foot a:focus { color: var(--accent); }
+        .pspulse-support {
+            background: var(--panel) !important; border-color: var(--accent) !important;
+            border-radius: 10px !important; color: var(--accent) !important;
+            font-family: Vazirmatn, Tahoma, sans-serif !important;
+        }
+        .pspulse-support:hover, .pspulse-support:focus { background: var(--accent) !important; color: var(--bg) !important; }
+        @media (max-width: 760px) {
+            .app { padding: 10px 8px !important; width: min(100% - 16px, 560px) !important; }
+            .bar { gap: 8px; }
+            h1 { font-size: 30px !important; }
+            .chain-options { width: 100%; }
+            .chain-option { flex: 1; }
+            .nodeplay { padding: 10px 12px; }
+            .pspulse-support { right: 10px; bottom: 10px; }
+        }
+    </style>
 </head>
 
 <body>
     <div class="app">
         <header class="bar">
-            <span><b>PSPULSE</b> // ps4 hosts</span>
-            <span class="bar-fw">fw 6.00-11.02 ready</span>
+            <span><b>🎮 Gplat_GC</b> // میزبان PS4</span>
+            <span class="bar-fw">FW 6.00-11.02 | آماده</span>
         </header>
 
         <main class="layout">
             <p class="kicker">$ ./launch --cssfontface</p>
-            <h1>CSSFontFace <em>6.00-11.02</em> host</h1>
-            <p class="sub">Offline auto GoldHEN loader by PlayStation Pulse.</p>
+            <h1>میزبان <em>CSSFontFace 6.00-11.02</em></h1>
+            <div class="gp-risk"><strong>⚠️ هشدار مهم</strong>کپی‌خور کردن کنسول خطراتی مثل خرابی سیستم، بن شدن حساب و از بین رفتن گارانتی دارد و تمام مسئولیت آن به عهده خود مشتری است.</div>
+            <p class="sub">لودر آفلاین و خودکار GoldHEN برای گیم سنتر جی پلات — Gplat_GC.</p>
             <ul class="boot">
-                <li>[ <b>ok</b> ] cssfontface chain ready</li>
-                <li>[ <b>ok</b> ] goldhen v2.4b18.12 staged</li>
-                <li>[ <b>ok</b> ] offline cache ready</li>
+                <li>[ <b>آماده</b> ] زنجیره CSSFontFace فعال است</li>
+                <li>[ <b>آماده</b> ] goldhen نسخهٔ v2.4b18.12 بارگذاری شد</li>
+                <li>[ <b>آماده</b> ] حافظهٔ آفلاین آماده است</li>
             </ul>
-            <p id="UA">Running on:</p>
-            <p id="cache">Checking offline cache...</p>
+            <p id="UA">در حال اجرا روی:</p>
+            <p id="cache">در حال بررسی حافظهٔ آفلاین…</p>
 
             <div class="status">
-                <div class="status-label">Exploit output</div>
-                <pre id="console">Ready. Awaiting execution...</pre>
+                <div class="status-label">خروجی اکسپلویت</div>
+                <pre id="console">آماده؛ در انتظار اجرا…</pre>
             </div>
 
+            <section class="guide" aria-label="هشدارها و توضیحات کپی‌خور">
+                <div class="guide-head">⚠️ راهنمای کپی‌خور — هشدارها</div>
+                <div class="guide-body">
+                    <div class="guide-card gc-warn">
+                        <div class="gc-title"><span class="gc-dot" style="background:#f97316"></span>توجه مهم</div>
+                        <p>خدمات کپی‌خور یک‌بار انجام می‌شود. مشکلات ناشی از بروزرسانی یا ریست‌فکتوری <strong>برعهده مشتری</strong> می‌باشد.</p>
+                    </div>
+                    <div class="guide-card gc-crit">
+                        <div class="gc-title"><span class="gc-dot" style="background:#ff4444"></span>ناپایداری سیستم</div>
+                        <p>کپی‌خور کردن ممکن است موجب خرابی، کرش یا فریز سیستم شود.</p>
+                    </div>
+                </div>
+            </section>
+
             <section class="controls">
-                <div class="section-title">Exploit control</div>
+                <div class="section-title">کنترل اکسپلویت</div>
                 <form id="kernel-options">
-                    <span class="chain-label">Kernel chain</span>
+                    <span class="chain-label">زنجیرهٔ Kernel</span>
                     <div class="chain-options">
                         <input type="radio" name="kernel" id="netctrl-exploit" value="netctrl">
                         <label class="chain-option" for="netctrl-exploit">Poops</label>
                         <input type="radio" name="kernel" id="lapse-exploit" value="lapse">
                         <label class="chain-option" for="lapse-exploit">Lapse</label>
                     </div>
-                    <button id="jeilbrek" type="button">Jailbreak</button>
-                    <button id="reloadBtn" type="button">Reload</button>
+                    <button id="jeilbrek" type="button">کپی‌خور</button>
+                    <button id="reloadBtn" type="button">بارگذاری مجدد</button>
                     <div class="auto-jb">
-                        <label class="auto-jb-label" for="autoJbInput" id="autoJbLabel">Auto Jailbreak</label>
+                        <label class="auto-jb-label" for="autoJbInput" id="autoJbLabel">کپی‌خور خودکار</label>
                         <input id="autoJbInput" type="checkbox">
                     </div>
                 </form>
             </section>
 
             <a class="nodeplay" href="https://nodeplay.net/" target="_blank" rel="noopener">
-                <span><span class="np-label">Premium game servers</span><span class="np-name">Node<b>Play</b></span></span>
-                <span class="np-open">OPEN &#8599;</span>
+                <span><span class="np-label">سرورهای بازی ویژه</span><span class="np-name">Node<b>Play</b></span></span>
+                <span class="np-open">باز کردن &#8599;</span>
             </a>
 
             <footer class="foot">
-                <div>Author: <a href="https://t.me/sudoBlackArch">BlackArch</a> // Telegram: <a href="https://t.me/PlayStation_Pulse">PlayStation Pulse</a></div>
-                <div>Upstream: <a href="https://github.com/itskenethb?tab=repositories">itskenethb</a></div>
+                <div class="foot-brand">🎮 گیم سنتر جی پلات — <bdi dir="ltr">Gplat_GC</bdi></div>
+                <div class="foot-addr">استان تهران، پاکدشت، بلوار آموزش و پرورش، جنب آموزش و پرورش، پلاک ۲۵۵</div>
+                <div class="foot-contact">📞 <bdi dir="ltr">09108683559</bdi> &nbsp;|&nbsp; اینستاگرام: <bdi dir="ltr">@Gplat_GC</bdi></div>
+                <div class="foot-credit">سازنده: <a href="https://t.me/sudoBlackArch">BlackArch</a> // <a href="https://t.me/PlayStation_Pulse">PlayStation Pulse</a></div>
             </footer>
         </main>
     </div>
@@ -272,48 +392,48 @@
             try {
                 cache.swapCache();
             } catch (error) {}
-            show('Cache updated — reloading once...', true);
+            show('حافظه به‌روزرسانی شد — بارگذاری مجدد…', true);
             setTimeout(function () {
                 window.location.reload();
             }, 750);
         }
 
         if (!cache || !document.documentElement.hasAttribute('manifest')) {
-            show('Application cache unavailable');
+            show('حافظهٔ آفلاین در دسترس نیست');
             return;
         }
 
         cache.addEventListener('checking', function () {
-            show('Checking offline cache...');
+            show('در حال بررسی حافظهٔ آفلاین…');
         }, false);
         cache.addEventListener('downloading', function () {
-            show('Installing offline cache...');
+            show('در حال نصب حافظهٔ آفلاین…');
         }, false);
         cache.addEventListener('progress', function (event) {
             if (event && event.total > 0) {
-                show('Caching ' + Math.round(event.loaded / event.total * 100) + '%');
+                show('ذخیره‌سازی آفلاین: ' + Math.round(event.loaded / event.total * 100) + '%');
             }
         }, false);
         cache.addEventListener('cached', function () {
-            show('Cached for offline use', true);
+            show('برای استفادهٔ آفلاین ذخیره شد', true);
         }, false);
         cache.addEventListener('noupdate', function () {
-            show('Cached — offline ready', true);
+            show('ذخیره شد — آمادهٔ استفادهٔ آفلاین', true);
         }, false);
         cache.addEventListener('updateready', reloadWithNewCache, false);
         cache.addEventListener('error', function () {
-            show('Cache failed — check the connection and retry manually');
+            show('ذخیره‌سازی ناموفق بود — اتصال را بررسی و دوباره تلاش کنید');
         }, false);
         cache.addEventListener('obsolete', function () {
-            show('Cache obsolete — clear browser data and reload');
+            show('حافظهٔ آفلاین قدیمی است — داده‌های مرورگر را پاک و صفحه را بارگذاری کنید');
         }, false);
 
         if (!navigator.onLine) {
-            show('Offline — using cached resources', true);
+            show('آفلاین — استفاده از منابع ذخیره‌شده', true);
         } else if (cache.status === cache.UPDATEREADY) {
             reloadWithNewCache();
         } else if (cache.status === cache.IDLE) {
-            show('Cached — offline ready', true);
+            show('ذخیره شد — آمادهٔ استفادهٔ آفلاین', true);
         }
     }());
     </script>
@@ -323,8 +443,9 @@
 <style id="pspulse-support-style">
 .pspulse-support{position:fixed;right:18px;bottom:18px;z-index:2147483647;display:block;padding:10px 15px;border:1px solid #9b87ff;border-radius:4px;background:#17151f;color:#b7a9ff!important;font:600 13px Arial,sans-serif;letter-spacing:.2px;text-decoration:none;box-shadow:0 4px 16px rgba(0,0,0,.32)}
 .pspulse-support:hover,.pspulse-support:focus{background:#9b87ff;color:#101014!important;outline:none}
+@media (max-width:760px){.pspulse-support{position:static;align-self:flex-end;margin:8px 10px 10px}}
 </style>
-<a class="pspulse-support" href="https://sudoblackarch.github.io/support/" aria-label="Support me">Support me!</a>
+<a class="pspulse-support" href="https://sudoblackarch.github.io/support/" aria-label="حمایت از سازنده">حمایت از سازنده</a>
 </body>
 
 </html>
